@@ -98,6 +98,7 @@ const disclaimer = "预测只基于公开信息和概率分析，不保证结果
 const reviewStorageKey = "worldCupTicketReviews";
 const ticketStorageKey = "worldCupTicketLedger";
 let selectedTicketImages = [];
+let currentRecognizedTicket = null;
 
 document.getElementById("briefDate").textContent = briefDate;
 document.getElementById("focusMatch").textContent = "墨西哥 vs 南非";
@@ -351,6 +352,75 @@ function parseLegLine(line) {
   };
 }
 
+function parseCurrency(text, patterns) {
+  for (const pattern of patterns) {
+    const match = text.match(pattern);
+    if (match) return Number(match[1].replace(/,/g, ""));
+  }
+  return 0;
+}
+
+function normalizeOcrText(text) {
+  return text
+    .replace(/[|｜]/g, "｜")
+    .replace(/[：﹕]/g, ":")
+    .replace(/[０-９]/g, (char) => String.fromCharCode(char.charCodeAt(0) - 65248))
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function extractTicketDataFromText(rawText) {
+  const text = normalizeOcrText(rawText);
+  const passType = (text.match(/过关方式\s*([0-9]+x[0-9]+)/i) || [])[1] || "待复核";
+  const multiple = parseCurrency(text, [/([0-9]+)\s*倍/]);
+  const stake = parseCurrency(text, [/合计\s*([0-9,.]+)\s*元/, /投注金额\s*([0-9,.]+)\s*元/]);
+  const maxPrize = parseCurrency(text, [/最高可能固定奖金[:：]?\s*([0-9,.]+)\s*元/, /最[高髙].{0,8}奖金[:：]?\s*([0-9,.]+)\s*元/]);
+  const games = [];
+  const knownMatches = [
+    { match: "墨西哥 vs 南非", home: "墨西哥", away: "南非" },
+    { match: "韩国 vs 捷克", home: "韩国", away: "捷克" },
+  ];
+
+  knownMatches.forEach((known) => {
+    if (text.includes(known.home) && text.includes(known.away)) {
+      games.push(known);
+    }
+  });
+
+  const picks = [];
+  const pickPatterns = [
+    { play: "胜平负", pick: "胜", pattern: /胜@?\s*([0-9]+\.[0-9]+)/g },
+    { play: "胜平负", pick: "平", pattern: /平@?\s*([0-9]+\.[0-9]+)/g },
+    { play: "胜平负", pick: "负", pattern: /负@?\s*([0-9]+\.[0-9]+)/g },
+    { play: "比分", pick: "3-0", pattern: /\(?3[:：-]0\)?@?\s*([0-9]+\.[0-9]+)/g },
+    { play: "比分", pick: "3-1", pattern: /\(?3[:：-]1\)?@?\s*([0-9]+\.[0-9]+)/g },
+    { play: "比分", pick: "1-1", pattern: /\(?1[:：-]1\)?@?\s*([0-9]+\.[0-9]+)/g },
+    { play: "比分", pick: "0-0", pattern: /\(?0[:：-]0\)?@?\s*([0-9]+\.[0-9]+)/g },
+  ];
+
+  pickPatterns.forEach((item) => {
+    let match = item.pattern.exec(text);
+    while (match) {
+      picks.push({ play: item.play, pick: item.pick, odd: Number(match[1]) });
+      match = item.pattern.exec(text);
+    }
+  });
+
+  return {
+    rawText,
+    title: `${briefDate} 自动识别票据`,
+    passType,
+    multiple,
+    stake,
+    maxPrize,
+    games,
+    picks,
+    legs: [],
+    results: [],
+    recognitionStatus: rawText ? "已识别，需核对" : "识别失败",
+  };
+}
+
 function parseResultLine(line) {
   const parts = line.split("｜").map((part) => part.trim());
   if (parts.length < 2) return null;
@@ -435,18 +505,21 @@ function evaluateLedgerTicket(ticket) {
 
 function readTicketForm() {
   const createdAt = new Date().toLocaleString("zh-CN");
+  const recognized = currentRecognizedTicket || {};
   return {
     id: `ticket-${Date.now()}`,
     createdAt,
-    title: selectedTicketImages.length ? `${briefDate} 上传票据` : "未上传票据",
-    passType: "待系统识别",
-    multiple: 0,
-    stake: 0,
-    maxPrize: 0,
-    legs: [],
-    results: [],
-    images: selectedTicketImages,
-    recognitionStatus: selectedTicketImages.length ? "待 OCR 识别" : "等待上传票据",
+    title: recognized.title || (selectedTicketImages.length ? `${briefDate} 上传票据` : "未上传票据"),
+    passType: recognized.passType || "待系统识别",
+    multiple: recognized.multiple || 0,
+    stake: recognized.stake || 0,
+    maxPrize: recognized.maxPrize || 0,
+    legs: recognized.legs || [],
+    results: recognized.results || [],
+    games: recognized.games || [],
+    picks: recognized.picks || [],
+    rawText: recognized.rawText || "",
+    recognitionStatus: recognized.recognitionStatus || (selectedTicketImages.length ? "识别中" : "等待上传票据"),
   };
 }
 
@@ -466,14 +539,17 @@ function renderTicketEvaluation() {
   const ticket = readTicketForm();
   const evaluation = evaluateLedgerTicket(ticket);
   const container = document.getElementById("ticketEvaluation");
-  if (!ticket.images.length) {
+  if (!selectedTicketImages.length && !ticket.rawText) {
     container.innerHTML = "";
     return;
   }
   const html = `
     <div class="eval-row"><strong>识别状态</strong><span class="manual">${ticket.recognitionStatus}</span></div>
-    <div class="eval-row"><strong>核销状态</strong><span class="manual">等待系统读取票面参数</span></div>
-    <div class="eval-row"><strong>已上传图片</strong><span class="hit">${ticket.images.length} 张</span></div>
+    <div class="eval-row"><strong>过关方式</strong><span class="hit">${ticket.passType}</span></div>
+    <div class="eval-row"><strong>金额/倍数</strong><span class="hit">${ticket.stake || 0} 元 / ${ticket.multiple || 0} 倍</span></div>
+    <div class="eval-row"><strong>最高奖金</strong><span class="hit">${ticket.maxPrize || 0} 元</span></div>
+    <div class="eval-row"><strong>识别比赛</strong><span class="hit">${ticket.games && ticket.games.length ? ticket.games.map((game) => game.match).join("，") : "待复核"}</span></div>
+    <div class="eval-row"><strong>识别选项</strong><span class="hit">${ticket.picks && ticket.picks.length ? ticket.picks.map((pick) => `${pick.pick}@${pick.odd}`).join("，") : "待复核"}</span></div>
     ${evaluation.legResults.map((item) => `<div class="eval-row"><strong>${item.leg.match}</strong><span class="${item.hit ? "hit" : item.status === "未中" ? "miss" : "manual"}">${item.leg.play}：${item.actual} / ${item.status}</span></div>`).join("")}
   `;
   container.innerHTML = "";
@@ -502,9 +578,10 @@ function renderTicketHistory() {
   history.innerHTML = evaluated.slice().reverse().map(({ ticket, evaluation }) => `
     <article class="history-card">
       <h4>${ticket.title}｜${evaluation.status}</h4>
-      ${ticket.images && ticket.images.length ? `<div class="history-images">${ticket.images.map((image) => `<img class="history-image" src="${image.dataUrl}" alt="${image.name}">`).join("")}</div>` : ""}
       <p>识别：${ticket.recognitionStatus || "待系统识别"}；过关：${ticket.passType}；理论奖金：${evaluation.calculatedPrize.toFixed(2)} 元</p>
-      <p>录入：${ticket.createdAt}</p>
+      <p>投入：${ticket.stake || 0} 元；倍数：${ticket.multiple || 0}；最高奖：${ticket.maxPrize || 0} 元；录入：${ticket.createdAt}</p>
+      ${ticket.games && ticket.games.length ? `<p>比赛：${ticket.games.map((game) => game.match).join("，")}</p>` : ""}
+      ${ticket.picks && ticket.picks.length ? `<p>选项：${ticket.picks.map((pick) => `${pick.play} ${pick.pick}@${pick.odd}`).join("，")}</p>` : ""}
       ${evaluation.legResults.map((item) => `<p>${item.leg.match}：${item.leg.play} ${item.leg.picks.join("/")}，赛果判断 ${item.actual}，${item.status}</p>`).join("")}
     </article>
   `).join("");
@@ -512,9 +589,9 @@ function renderTicketHistory() {
 
 function saveCurrentTicket() {
   const ticket = readTicketForm();
-  if (!ticket.images.length) {
+  if (!ticket.rawText) {
     const toast = document.getElementById("toast");
-    toast.textContent = "请先上传票据图片";
+    toast.textContent = "请先上传并识别票据";
     toast.classList.add("show");
     window.setTimeout(() => {
       toast.classList.remove("show");
@@ -540,6 +617,7 @@ function saveCurrentTicket() {
 
 function clearTicketForm() {
   selectedTicketImages = [];
+  currentRecognizedTicket = null;
   document.getElementById("ticketImages").value = "";
   renderTicketImagePreview();
   document.getElementById("ticketAutoFields").innerHTML = `
@@ -592,9 +670,22 @@ async function handleTicketImageUpload(event) {
   try {
     selectedTicketImages = await Promise.all(files.slice(0, 6).map((file) => resizeImage(file)));
     renderTicketImagePreview();
+    document.getElementById("ticketAutoFields").innerHTML = `
+      <div class="eval-row"><strong>识别状态</strong><span class="manual">正在识别...</span></div>
+      <div class="eval-row"><strong>核销状态</strong><span class="manual">等待识别结果</span></div>
+    `;
+    const rawTextParts = [];
+    if (!window.Tesseract) {
+      throw new Error("OCR library unavailable");
+    }
+    for (const file of files.slice(0, 6)) {
+      const result = await window.Tesseract.recognize(file, "chi_sim+eng");
+      rawTextParts.push(result.data.text);
+    }
+    currentRecognizedTicket = extractTicketDataFromText(rawTextParts.join("\n"));
     renderTicketEvaluation();
     const toast = document.getElementById("toast");
-    toast.textContent = "图片已上传";
+    toast.textContent = "票据已识别";
     toast.classList.add("show");
     window.setTimeout(() => {
       toast.classList.remove("show");
