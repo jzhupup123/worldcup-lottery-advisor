@@ -49,6 +49,7 @@
           <button class="segment active" data-panel="summary" type="button">总览</button>
           <button class="segment" data-panel="matches" type="button">赛前</button>
           <button class="segment" data-panel="tickets" type="button">组合</button>
+          <button class="segment" data-panel="ledger" type="button">票据</button>
           <button class="segment" data-panel="review" type="button">复盘</button>
           <button class="segment" data-panel="rules" type="button">规则</button>
           <button class="segment" data-panel="email" type="button">邮件</button>
@@ -97,6 +98,48 @@
           </div>
           <div class="ticket-board" id="ticketBoard"></div>
           <p class="notice">组合仅用于赛前决策参考。实际可选玩法、让球数、赔率、截止时间以中国体育彩票销售终端为准；不要加注追损。</p>
+        </article>
+
+        <article class="panel span-12 hidden" data-view="ledger">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Ticket Ledger</p>
+              <h2>彩票台账与自动核奖</h2>
+            </div>
+            <button class="icon-button" id="saveTicket" type="button" title="保存彩票记录">保存</button>
+          </div>
+          <div class="ledger-grid">
+            <section class="ledger-form">
+              <h3>录入票据</h3>
+              <div class="form-row">
+                <label>票据名称<input id="ticketTitle" type="text" placeholder="例如 6月11日世界杯 2串1"></label>
+                <label>过关方式<input id="ticketPassType" type="text" placeholder="例如 2x1"></label>
+              </div>
+              <div class="form-row">
+                <label>倍数<input id="ticketMultiple" type="number" min="1" value="1"></label>
+                <label>实付金额<input id="ticketStake" type="number" min="0" step="0.01" placeholder="例如 100"></label>
+                <label>票面最高奖<input id="ticketMaxPrize" type="number" min="0" step="0.01" placeholder="例如 490"></label>
+              </div>
+              <label>
+                选择明细
+                <textarea id="ticketLegs" rows="6" placeholder="每行一关：比赛｜玩法｜选择｜赔率&#10;墨西哥 vs 南非｜让球胜平负(-1)｜让胜｜2.00&#10;韩国 vs 捷克｜胜平负｜胜｜2.45"></textarea>
+              </label>
+              <label>
+                赛果
+                <textarea id="ticketResults" rows="4" placeholder="每行一场：比赛｜比分&#10;墨西哥 vs 南非｜2-0&#10;韩国 vs 捷克｜1-0"></textarea>
+              </label>
+              <div class="ledger-actions">
+                <button class="primary-button compact" id="evaluateTicket" type="button">计算核奖</button>
+                <button class="secondary-action" id="clearTicketForm" type="button">清空表单</button>
+              </div>
+              <div class="live-evaluation" id="ticketEvaluation"></div>
+            </section>
+            <section class="ledger-history">
+              <h3>历史票据</h3>
+              <div class="metric-grid" id="ledgerMetrics"></div>
+              <div class="review-history" id="ticketHistory"></div>
+            </section>
+          </div>
         </article>
 
         <article class="panel span-12 hidden" data-view="review">
