@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>世界杯每日情报站</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">每日 09:30 自动更新</p>
+          <h1>世界杯每日情报站</h1>
+          <p class="lede">汇总昨日赛果，给出今日赛前分析、预测比分和胜负角度，形成可直接发到邮箱的中文简报。</p>
+          <div class="hero-actions">
+            <button class="primary-button" id="copyBrief" type="button">复制今日简报</button>
+            <a class="secondary-button" href="mailto:jiazenghui.0210@bytedance.com?subject=世界杯每日赛果与赛前分析">发送到邮箱</a>
+          </div>
+        </div>
+        <div class="scoreboard" aria-label="今日重点比赛">
+          <div class="scoreboard-top">
+            <span>今日焦点</span>
+            <strong id="focusMatch">西班牙 vs 葡萄牙</strong>
+          </div>
+          <div class="pitch">
+            <div class="center-circle"></div>
+            <div class="pitch-line"></div>
+            <div class="team left">ESP</div>
+            <div class="team right">POR</div>
+          </div>
+          <div class="prediction">
+            <span>预测比分</span>
+            <strong id="focusScore">2 - 1</strong>
+          </div>
+        </div>
+      </section>
+
+      <section class="toolbar" aria-label="简报控制">
+        <div>
+          <span class="label">收件人</span>
+          <strong>jiazenghui.0210@bytedance.com</strong>
+        </div>
+        <div>
+          <span class="label">简报日期</span>
+          <strong id="briefDate">今日</strong>
+        </div>
+        <div class="segmented" role="tablist" aria-label="内容视图">
+          <button class="segment active" data-panel="summary" type="button">总览</button>
+          <button class="segment" data-panel="matches" type="button">赛前</button>
+          <button class="segment" data-panel="tickets" type="button">组合</button>
+          <button class="segment" data-panel="review" type="button">复盘</button>
+          <button class="segment" data-panel="rules" type="button">规则</button>
+          <button class="segment" data-panel="email" type="button">邮件</button>
+        </div>
+      </section>
+
+      <section class="content-grid">
+        <article class="panel span-7" data-view="summary">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Yesterday</p>
+              <h2>昨日赛果</h2>
+            </div>
+            <span class="status-pill">已按今日赛程修正</span>
+          </div>
+          <div class="results-list" id="resultsList"></div>
+        </article>
+
+        <article class="panel span-5" data-view="summary">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Angle</p>
+              <h2>今日胜负角度</h2>
+            </div>
+          </div>
+          <div class="angle-list" id="angleList"></div>
+        </article>
+
+        <article class="panel span-12 hidden" data-view="matches">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Preview</p>
+              <h2>赛前分析</h2>
+            </div>
+          </div>
+          <div class="preview-list" id="previewList"></div>
+        </article>
+
+        <article class="panel span-12 hidden" data-view="tickets">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Ticket Ideas</p>
+              <h2>当日多关组合建议</h2>
+            </div>
+            <span class="status-pill">2 场可做 2 串 1</span>
+          </div>
+          <div class="ticket-board" id="ticketBoard"></div>
+          <p class="notice">组合仅用于赛前决策参考。实际可选玩法、让球数、赔率、截止时间以中国体育彩票销售终端为准；不要加注追损。</p>
+        </article>
+
+        <article class="panel span-12 hidden" data-view="review">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Review Loop</p>
+              <h2>赛后命中复盘</h2>
+            </div>
+            <button class="icon-button" id="saveReview" type="button" title="保存复盘记录">保存</button>
+          </div>
+          <div class="review-grid">
+            <section class="review-form">
+              <h3>录入赛果</h3>
+              <label>
+                墨西哥 vs 南非
+                <input id="scoreMexico" type="text" placeholder="例如 2-1">
+              </label>
+              <label>
+                韩国 vs 捷克
+                <input id="scoreKorea" type="text" placeholder="例如 1-1">
+              </label>
+              <label>
+                复盘备注
+                <textarea id="reviewNote" rows="4" placeholder="例如：墨西哥主场判断正确，韩国场平局风险评估合理"></textarea>
+              </label>
+              <div class="live-evaluation" id="liveEvaluation"></div>
+              <p class="notice">保存后会在本机浏览器形成历史记录，方便后续统计命中率和优化推荐逻辑。</p>
+            </section>
+            <section class="review-summary">
+              <h3>当前统计</h3>
+              <div class="metric-grid" id="metricGrid"></div>
+              <div class="review-history" id="reviewHistory"></div>
+            </section>
+          </div>
+        </article>
+
+        <article class="panel span-12 hidden" data-view="rules">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Sports Lottery</p>
+              <h2>竞彩买球规则框架</h2>
+            </div>
+            <span class="status-pill">购票前以官方终端为准</span>
+          </div>
+          <div class="rules-grid">
+            <section class="rule-card">
+              <h3>核心玩法</h3>
+              <p>竞彩足球通常围绕法定比赛时间内的结果展开，常见维度包括胜平负、让球胜平负、比分、总进球、半全场，以及混合过关。</p>
+            </section>
+            <section class="rule-card">
+              <h3>胜平负</h3>
+              <p>只看主队 90 分钟含伤停补时后的赛果：主胜、平、主负。杯赛加时和点球一般不计入常规胜平负。</p>
+            </section>
+            <section class="rule-card">
+              <h3>让球胜平负</h3>
+              <p>先按官方给出的让球数调整主队比分，再判断胜平负。例：主队 -1，实际 1:0 只能算让平；实际 2:0 才算让胜。</p>
+            </section>
+            <section class="rule-card">
+              <h3>比分与总进球</h3>
+              <p>比分是精确猜全场比分，难度高但赔率通常更高。总进球按两队进球和判断，常见档位为 0、1、2、3、4、5、6、7+。</p>
+            </section>
+            <section class="rule-card">
+              <h3>过关与风险</h3>
+              <p>单关只看一场，串关需要所有关都命中才中奖。串得越多，理论奖金更高，但任何一场失手都会影响整张票。</p>
+            </section>
+            <section class="rule-card">
+              <h3>分析口径</h3>
+              <p>本站建议每场输出三层结论：稳健方向、比分范围、放弃理由。没有明显价值的比赛应标记为不建议参与。</p>
+            </section>
+          </div>
+        </article>
+
+        <article class="panel span-12 hidden" data-view="email">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Email</p>
+              <h2>邮件正文</h2>
+            </div>
+            <button class="icon-button" id="copyBriefSmall" type="button" title="复制邮件正文">Copy</button>
+          </div>
+          <pre class="email-body" id="emailBody"></pre>
+        </article>
+      </section>
+    </main>
+
+    <div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
+    <script src="./app.js"></script>
+  </body>
+</html>
