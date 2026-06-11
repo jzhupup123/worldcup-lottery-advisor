@@ -51,8 +51,6 @@
           <button class="segment" data-panel="tickets" type="button">组合</button>
           <button class="segment" data-panel="ledger" type="button">票据</button>
           <button class="segment" data-panel="review" type="button">复盘</button>
-          <button class="segment" data-panel="rules" type="button">规则</button>
-          <button class="segment" data-panel="email" type="button">邮件</button>
         </div>
       </section>
 
@@ -111,6 +109,15 @@
           <div class="ledger-grid">
             <section class="ledger-form">
               <h3>录入票据</h3>
+              <div class="upload-box">
+                <label class="upload-label" for="ticketImages">
+                  <span>上传彩票图片</span>
+                  <strong>选择图片</strong>
+                  <input id="ticketImages" type="file" accept="image/*" multiple>
+                </label>
+                <div class="image-preview-grid" id="ticketImagePreview"></div>
+                <p class="upload-hint">图片会随台账保存在本机浏览器。票面自动识别需要后续接入 OCR，目前先用于留档和人工录入。</p>
+              </div>
               <div class="form-row">
                 <label>票据名称<input id="ticketTitle" type="text" placeholder="例如 6月11日世界杯 2串1"></label>
                 <label>过关方式<input id="ticketPassType" type="text" placeholder="例如 2x1"></label>
@@ -223,6 +230,11 @@
           <pre class="email-body" id="emailBody"></pre>
         </article>
       </section>
+
+      <footer class="utility-footer">
+        <button class="utility-link" data-panel="rules" type="button">竞彩规则</button>
+        <button class="utility-link" data-panel="email" type="button">邮件正文</button>
+      </footer>
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
