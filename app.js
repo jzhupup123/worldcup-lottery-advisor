@@ -434,17 +434,19 @@ function evaluateLedgerTicket(ticket) {
 }
 
 function readTicketForm() {
+  const createdAt = new Date().toLocaleString("zh-CN");
   return {
     id: `ticket-${Date.now()}`,
-    createdAt: new Date().toLocaleString("zh-CN"),
-    title: document.getElementById("ticketTitle").value.trim() || "未命名票据",
-    passType: document.getElementById("ticketPassType").value.trim() || "未填写",
-    multiple: Number(document.getElementById("ticketMultiple").value || 1),
-    stake: Number(document.getElementById("ticketStake").value || 0),
-    maxPrize: Number(document.getElementById("ticketMaxPrize").value || 0),
-    legs: document.getElementById("ticketLegs").value.split("\n").map((line) => line.trim()).filter(Boolean),
-    results: document.getElementById("ticketResults").value.split("\n").map((line) => line.trim()).filter(Boolean),
+    createdAt,
+    title: selectedTicketImages.length ? `${briefDate} 上传票据` : "未上传票据",
+    passType: "待系统识别",
+    multiple: 0,
+    stake: 0,
+    maxPrize: 0,
+    legs: [],
+    results: [],
     images: selectedTicketImages,
+    recognitionStatus: selectedTicketImages.length ? "待 OCR 识别" : "等待上传票据",
   };
 }
 
@@ -464,16 +466,18 @@ function renderTicketEvaluation() {
   const ticket = readTicketForm();
   const evaluation = evaluateLedgerTicket(ticket);
   const container = document.getElementById("ticketEvaluation");
-  if (!ticket.legs.length) {
+  if (!ticket.images.length) {
     container.innerHTML = "";
     return;
   }
-  container.innerHTML = `
-    <div class="eval-row"><strong>核奖状态</strong><span class="${evaluation.status === "中奖" ? "hit" : evaluation.status === "未中奖" ? "miss" : "manual"}">${evaluation.status}</span></div>
-    <div class="eval-row"><strong>理论奖金</strong><span class="hit">${evaluation.calculatedPrize.toFixed(2)} 元</span></div>
+  const html = `
+    <div class="eval-row"><strong>识别状态</strong><span class="manual">${ticket.recognitionStatus}</span></div>
+    <div class="eval-row"><strong>核销状态</strong><span class="manual">等待系统读取票面参数</span></div>
+    <div class="eval-row"><strong>已上传图片</strong><span class="hit">${ticket.images.length} 张</span></div>
     ${evaluation.legResults.map((item) => `<div class="eval-row"><strong>${item.leg.match}</strong><span class="${item.hit ? "hit" : item.status === "未中" ? "miss" : "manual"}">${item.leg.play}：${item.actual} / ${item.status}</span></div>`).join("")}
-    ${evaluation.needsManual ? `<div class="eval-row"><strong>提示</strong><span class="manual">多赔率选项需写成 选项@赔率 才能精确算奖</span></div>` : ""}
   `;
+  container.innerHTML = "";
+  document.getElementById("ticketAutoFields").innerHTML = html;
 }
 
 function renderTicketHistory() {
@@ -499,8 +503,8 @@ function renderTicketHistory() {
     <article class="history-card">
       <h4>${ticket.title}｜${evaluation.status}</h4>
       ${ticket.images && ticket.images.length ? `<div class="history-images">${ticket.images.map((image) => `<img class="history-image" src="${image.dataUrl}" alt="${image.name}">`).join("")}</div>` : ""}
-      <p>过关：${ticket.passType}；倍数：${ticket.multiple}；投入：${ticket.stake || 0} 元；理论奖金：${evaluation.calculatedPrize.toFixed(2)} 元</p>
-      <p>最高奖：${ticket.maxPrize || 0} 元；录入：${ticket.createdAt}</p>
+      <p>识别：${ticket.recognitionStatus || "待系统识别"}；过关：${ticket.passType}；理论奖金：${evaluation.calculatedPrize.toFixed(2)} 元</p>
+      <p>录入：${ticket.createdAt}</p>
       ${evaluation.legResults.map((item) => `<p>${item.leg.match}：${item.leg.play} ${item.leg.picks.join("/")}，赛果判断 ${item.actual}，${item.status}</p>`).join("")}
     </article>
   `).join("");
@@ -508,9 +512,9 @@ function renderTicketHistory() {
 
 function saveCurrentTicket() {
   const ticket = readTicketForm();
-  if (!ticket.legs.length) {
+  if (!ticket.images.length) {
     const toast = document.getElementById("toast");
-    toast.textContent = "请先填写选择明细";
+    toast.textContent = "请先上传票据图片";
     toast.classList.add("show");
     window.setTimeout(() => {
       toast.classList.remove("show");
@@ -535,13 +539,13 @@ function saveCurrentTicket() {
 }
 
 function clearTicketForm() {
-  ["ticketTitle", "ticketPassType", "ticketStake", "ticketMaxPrize", "ticketLegs", "ticketResults"].forEach((id) => {
-    document.getElementById(id).value = "";
-  });
-  document.getElementById("ticketMultiple").value = "1";
   selectedTicketImages = [];
   document.getElementById("ticketImages").value = "";
   renderTicketImagePreview();
+  document.getElementById("ticketAutoFields").innerHTML = `
+    <div class="eval-row"><strong>识别状态</strong><span class="manual">等待上传票据</span></div>
+    <div class="eval-row"><strong>核销状态</strong><span class="manual">待赛果</span></div>
+  `;
   renderTicketEvaluation();
 }
 
@@ -588,6 +592,7 @@ async function handleTicketImageUpload(event) {
   try {
     selectedTicketImages = await Promise.all(files.slice(0, 6).map((file) => resizeImage(file)));
     renderTicketImagePreview();
+    renderTicketEvaluation();
     const toast = document.getElementById("toast");
     toast.textContent = "图片已上传";
     toast.classList.add("show");
@@ -651,7 +656,7 @@ function buildEmail() {
     `  资金：${idea.stake}`
   )).join("\n\n");
 
-  return `主题：世界杯每日赛果与赛前分析｜${briefDate}
+  return `主题：世界杯每日赛果与当日赛前预测｜${briefDate}
 
 你好，
 
@@ -662,10 +667,10 @@ function buildEmail() {
 一、昨日赛果
 ${resultText}
 
-二、今日/下一比赛日赛前分析
+二、今日/下一比赛日赛前预测
 ${previewText}
 
-三、当日多关组合建议
+三、当日彩票组合推荐
 ${ticketText}
 
 四、提示
@@ -725,12 +730,8 @@ document.getElementById("saveReview").addEventListener("click", saveCurrentRevie
 document.getElementById("scoreMexico").addEventListener("input", renderLiveEvaluation);
 document.getElementById("scoreKorea").addEventListener("input", renderLiveEvaluation);
 document.getElementById("saveTicket").addEventListener("click", saveCurrentTicket);
-document.getElementById("evaluateTicket").addEventListener("click", renderTicketEvaluation);
 document.getElementById("clearTicketForm").addEventListener("click", clearTicketForm);
 document.getElementById("ticketImages").addEventListener("change", handleTicketImageUpload);
-["ticketLegs", "ticketResults", "ticketMultiple"].forEach((id) => {
-  document.getElementById(id).addEventListener("input", renderTicketEvaluation);
-});
 
 renderResults();
 renderAngles();
