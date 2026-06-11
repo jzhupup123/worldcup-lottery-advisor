@@ -96,6 +96,7 @@ const ticketIdeas = [
 
 const disclaimer = "预测只基于公开信息和概率分析，不保证结果，不构成投注建议。";
 const reviewStorageKey = "worldCupTicketReviews";
+const ticketStorageKey = "worldCupTicketLedger";
 
 document.getElementById("briefDate").textContent = briefDate;
 document.getElementById("focusMatch").textContent = "墨西哥 vs 南非";
@@ -323,6 +324,221 @@ function saveCurrentReview() {
   }, 1600);
 }
 
+function splitOptions(value) {
+  return value
+    .split(/[\/、,，]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
+function parseLegLine(line) {
+  const parts = line.split("｜").map((part) => part.trim());
+  if (parts.length < 4) return null;
+  const oddsItems = splitOptions(parts[3]).map((item) => {
+    const [label, odd] = item.split("@").map((part) => part && part.trim());
+    return {
+      label: odd ? label : null,
+      odd: Number(odd || item),
+    };
+  });
+  return {
+    match: parts[0],
+    play: parts[1],
+    picks: splitOptions(parts[2]),
+    odds: oddsItems.filter((item) => Number.isFinite(item.odd) && item.odd > 0),
+    raw: line,
+  };
+}
+
+function parseResultLine(line) {
+  const parts = line.split("｜").map((part) => part.trim());
+  if (parts.length < 2) return null;
+  return {
+    match: parts[0],
+    score: parseScore(parts[1]),
+    rawScore: parts[1],
+  };
+}
+
+function findResultForLeg(leg, results) {
+  const compactLeg = leg.match.replace(/\s/g, "");
+  return results.find((result) => {
+    const compactResult = result.match.replace(/\s/g, "");
+    return compactResult.includes(compactLeg) || compactLeg.includes(compactResult);
+  });
+}
+
+function resultForPlay(leg, score) {
+  if (!score) return null;
+
+  if (leg.play.includes("让球胜平负")) {
+    const handicapMatch = leg.play.match(/[-+]?\d+/);
+    const handicap = handicapMatch ? Number(handicapMatch[0]) : 0;
+    const adjusted = { home: score.home + handicap, away: score.away };
+    const adjustedOutcome = outcome(adjusted);
+    return `让${adjustedOutcome}`;
+  }
+
+  if (leg.play.includes("胜平负")) {
+    return outcome(score);
+  }
+
+  if (leg.play.includes("比分")) {
+    return exactScore(score);
+  }
+
+  if (leg.play.includes("总进球")) {
+    return String(totalGoals(score));
+  }
+
+  return null;
+}
+
+function oddForHit(leg, hitPick) {
+  if (leg.odds.length === 1) return leg.odds[0].odd;
+  const matched = leg.odds.find((item) => item.label && item.label === hitPick);
+  return matched ? matched.odd : null;
+}
+
+function evaluateLedgerTicket(ticket) {
+  const legs = ticket.legs.map(parseLegLine).filter(Boolean);
+  const results = ticket.results.map(parseResultLine).filter(Boolean);
+  let product = 1;
+  let needsManual = false;
+
+  const legResults = legs.map((leg) => {
+    const result = findResultForLeg(leg, results);
+    const actual = resultForPlay(leg, result && result.score);
+    if (!actual) {
+      needsManual = true;
+      return { leg, actual: "待赛果", status: "待赛果", hit: false };
+    }
+    const hit = leg.picks.includes(actual);
+    const odd = hit ? oddForHit(leg, actual) : null;
+    if (hit && !odd) needsManual = true;
+    if (hit && odd) product *= odd;
+    return { leg, actual, status: hit ? "命中" : "未中", hit };
+  });
+
+  const completed = legResults.length > 0 && legResults.every((item) => item.status !== "待赛果");
+  const allHit = completed && legResults.every((item) => item.hit);
+  const calculatedPrize = allHit && !needsManual ? Number((2 * ticket.multiple * product).toFixed(2)) : 0;
+
+  return {
+    legResults,
+    status: !completed ? "待赛果" : allHit ? "中奖" : "未中奖",
+    calculatedPrize,
+    needsManual,
+  };
+}
+
+function readTicketForm() {
+  return {
+    id: `ticket-${Date.now()}`,
+    createdAt: new Date().toLocaleString("zh-CN"),
+    title: document.getElementById("ticketTitle").value.trim() || "未命名票据",
+    passType: document.getElementById("ticketPassType").value.trim() || "未填写",
+    multiple: Number(document.getElementById("ticketMultiple").value || 1),
+    stake: Number(document.getElementById("ticketStake").value || 0),
+    maxPrize: Number(document.getElementById("ticketMaxPrize").value || 0),
+    legs: document.getElementById("ticketLegs").value.split("\n").map((line) => line.trim()).filter(Boolean),
+    results: document.getElementById("ticketResults").value.split("\n").map((line) => line.trim()).filter(Boolean),
+  };
+}
+
+function loadTickets() {
+  try {
+    return JSON.parse(localStorage.getItem(ticketStorageKey)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function saveTickets(tickets) {
+  localStorage.setItem(ticketStorageKey, JSON.stringify(tickets));
+}
+
+function renderTicketEvaluation() {
+  const ticket = readTicketForm();
+  const evaluation = evaluateLedgerTicket(ticket);
+  const container = document.getElementById("ticketEvaluation");
+  if (!ticket.legs.length) {
+    container.innerHTML = "";
+    return;
+  }
+  container.innerHTML = `
+    <div class="eval-row"><strong>核奖状态</strong><span class="${evaluation.status === "中奖" ? "hit" : evaluation.status === "未中奖" ? "miss" : "manual"}">${evaluation.status}</span></div>
+    <div class="eval-row"><strong>理论奖金</strong><span class="hit">${evaluation.calculatedPrize.toFixed(2)} 元</span></div>
+    ${evaluation.legResults.map((item) => `<div class="eval-row"><strong>${item.leg.match}</strong><span class="${item.hit ? "hit" : item.status === "未中" ? "miss" : "manual"}">${item.leg.play}：${item.actual} / ${item.status}</span></div>`).join("")}
+    ${evaluation.needsManual ? `<div class="eval-row"><strong>提示</strong><span class="manual">多赔率选项需写成 选项@赔率 才能精确算奖</span></div>` : ""}
+  `;
+}
+
+function renderTicketHistory() {
+  const tickets = loadTickets();
+  const evaluated = tickets.map((ticket) => ({ ticket, evaluation: evaluateLedgerTicket(ticket) }));
+  const won = evaluated.filter((item) => item.evaluation.status === "中奖");
+  const totalPrize = won.reduce((sum, item) => sum + item.evaluation.calculatedPrize, 0);
+  const totalStake = tickets.reduce((sum, ticket) => sum + Number(ticket.stake || 0), 0);
+
+  document.getElementById("ledgerMetrics").innerHTML = `
+    <div class="metric-card"><span>票据数</span><strong>${tickets.length}</strong></div>
+    <div class="metric-card"><span>总投入</span><strong>${totalStake.toFixed(0)}</strong></div>
+    <div class="metric-card"><span>已算奖金</span><strong>${totalPrize.toFixed(0)}</strong></div>
+  `;
+
+  const history = document.getElementById("ticketHistory");
+  if (!tickets.length) {
+    history.innerHTML = `<div class="history-card"><h4>暂无票据</h4><p>你每天把彩票发给我后，我会按票面内容录入这里，赛后再核奖。</p></div>`;
+    return;
+  }
+
+  history.innerHTML = evaluated.slice().reverse().map(({ ticket, evaluation }) => `
+    <article class="history-card">
+      <h4>${ticket.title}｜${evaluation.status}</h4>
+      <p>过关：${ticket.passType}；倍数：${ticket.multiple}；投入：${ticket.stake || 0} 元；理论奖金：${evaluation.calculatedPrize.toFixed(2)} 元</p>
+      <p>最高奖：${ticket.maxPrize || 0} 元；录入：${ticket.createdAt}</p>
+      ${evaluation.legResults.map((item) => `<p>${item.leg.match}：${item.leg.play} ${item.leg.picks.join("/")}，赛果判断 ${item.actual}，${item.status}</p>`).join("")}
+    </article>
+  `).join("");
+}
+
+function saveCurrentTicket() {
+  const ticket = readTicketForm();
+  if (!ticket.legs.length) {
+    const toast = document.getElementById("toast");
+    toast.textContent = "请先填写选择明细";
+    toast.classList.add("show");
+    window.setTimeout(() => {
+      toast.classList.remove("show");
+      toast.textContent = "已复制";
+    }, 1600);
+    return;
+  }
+
+  const tickets = loadTickets();
+  tickets.push(ticket);
+  saveTickets(tickets);
+  renderTicketEvaluation();
+  renderTicketHistory();
+
+  const toast = document.getElementById("toast");
+  toast.textContent = "票据已保存";
+  toast.classList.add("show");
+  window.setTimeout(() => {
+    toast.classList.remove("show");
+    toast.textContent = "已复制";
+  }, 1600);
+}
+
+function clearTicketForm() {
+  ["ticketTitle", "ticketPassType", "ticketStake", "ticketMaxPrize", "ticketLegs", "ticketResults"].forEach((id) => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("ticketMultiple").value = "1";
+  renderTicketEvaluation();
+}
+
 function renderLiveEvaluation() {
   const mexicoText = document.getElementById("scoreMexico").value.trim();
   const koreaText = document.getElementById("scoreKorea").value.trim();
@@ -434,6 +650,12 @@ document.getElementById("copyBriefSmall").addEventListener("click", copyBrief);
 document.getElementById("saveReview").addEventListener("click", saveCurrentReview);
 document.getElementById("scoreMexico").addEventListener("input", renderLiveEvaluation);
 document.getElementById("scoreKorea").addEventListener("input", renderLiveEvaluation);
+document.getElementById("saveTicket").addEventListener("click", saveCurrentTicket);
+document.getElementById("evaluateTicket").addEventListener("click", renderTicketEvaluation);
+document.getElementById("clearTicketForm").addEventListener("click", clearTicketForm);
+["ticketLegs", "ticketResults", "ticketMultiple"].forEach((id) => {
+  document.getElementById(id).addEventListener("input", renderTicketEvaluation);
+});
 
 renderResults();
 renderAngles();
@@ -441,3 +663,4 @@ renderPreviews();
 renderTicketIdeas();
 renderEmail();
 renderReviewStats();
+renderTicketHistory();
