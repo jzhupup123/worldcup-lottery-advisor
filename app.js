@@ -97,6 +97,7 @@ const ticketIdeas = [
 const disclaimer = "预测只基于公开信息和概率分析，不保证结果，不构成投注建议。";
 const reviewStorageKey = "worldCupTicketReviews";
 const ticketStorageKey = "worldCupTicketLedger";
+let selectedTicketImages = [];
 
 document.getElementById("briefDate").textContent = briefDate;
 document.getElementById("focusMatch").textContent = "墨西哥 vs 南非";
@@ -443,6 +444,7 @@ function readTicketForm() {
     maxPrize: Number(document.getElementById("ticketMaxPrize").value || 0),
     legs: document.getElementById("ticketLegs").value.split("\n").map((line) => line.trim()).filter(Boolean),
     results: document.getElementById("ticketResults").value.split("\n").map((line) => line.trim()).filter(Boolean),
+    images: selectedTicketImages,
   };
 }
 
@@ -496,6 +498,7 @@ function renderTicketHistory() {
   history.innerHTML = evaluated.slice().reverse().map(({ ticket, evaluation }) => `
     <article class="history-card">
       <h4>${ticket.title}｜${evaluation.status}</h4>
+      ${ticket.images && ticket.images.length ? `<div class="history-images">${ticket.images.map((image) => `<img class="history-image" src="${image.dataUrl}" alt="${image.name}">`).join("")}</div>` : ""}
       <p>过关：${ticket.passType}；倍数：${ticket.multiple}；投入：${ticket.stake || 0} 元；理论奖金：${evaluation.calculatedPrize.toFixed(2)} 元</p>
       <p>最高奖：${ticket.maxPrize || 0} 元；录入：${ticket.createdAt}</p>
       ${evaluation.legResults.map((item) => `<p>${item.leg.match}：${item.leg.play} ${item.leg.picks.join("/")}，赛果判断 ${item.actual}，${item.status}</p>`).join("")}
@@ -536,7 +539,71 @@ function clearTicketForm() {
     document.getElementById(id).value = "";
   });
   document.getElementById("ticketMultiple").value = "1";
+  selectedTicketImages = [];
+  document.getElementById("ticketImages").value = "";
+  renderTicketImagePreview();
   renderTicketEvaluation();
+}
+
+function resizeImage(file, maxWidth = 1200, quality = 0.82) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const image = new Image();
+      image.onload = () => {
+        const scale = Math.min(1, maxWidth / image.width);
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(image.width * scale);
+        canvas.height = Math.round(image.height * scale);
+        const context = canvas.getContext("2d");
+        context.drawImage(image, 0, 0, canvas.width, canvas.height);
+        resolve({
+          name: file.name,
+          dataUrl: canvas.toDataURL("image/jpeg", quality),
+        });
+      };
+      image.onerror = reject;
+      image.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderTicketImagePreview() {
+  const container = document.getElementById("ticketImagePreview");
+  if (!selectedTicketImages.length) {
+    container.innerHTML = "";
+    return;
+  }
+  container.innerHTML = selectedTicketImages.map((image) => (
+    `<img class="ticket-image" src="${image.dataUrl}" alt="${image.name}">`
+  )).join("");
+}
+
+async function handleTicketImageUpload(event) {
+  const files = Array.from(event.target.files || []).filter((file) => file.type.startsWith("image/"));
+  if (!files.length) return;
+
+  try {
+    selectedTicketImages = await Promise.all(files.slice(0, 6).map((file) => resizeImage(file)));
+    renderTicketImagePreview();
+    const toast = document.getElementById("toast");
+    toast.textContent = "图片已上传";
+    toast.classList.add("show");
+    window.setTimeout(() => {
+      toast.classList.remove("show");
+      toast.textContent = "已复制";
+    }, 1400);
+  } catch {
+    const toast = document.getElementById("toast");
+    toast.textContent = "图片读取失败";
+    toast.classList.add("show");
+    window.setTimeout(() => {
+      toast.classList.remove("show");
+      toast.textContent = "已复制";
+    }, 1600);
+  }
 }
 
 function renderLiveEvaluation() {
@@ -645,6 +712,13 @@ document.querySelectorAll(".segment").forEach((button) => {
   button.addEventListener("click", () => showPanel(button.dataset.panel));
 });
 
+document.querySelectorAll(".utility-link").forEach((button) => {
+  button.addEventListener("click", () => {
+    showPanel(button.dataset.panel);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+});
+
 document.getElementById("copyBrief").addEventListener("click", copyBrief);
 document.getElementById("copyBriefSmall").addEventListener("click", copyBrief);
 document.getElementById("saveReview").addEventListener("click", saveCurrentReview);
@@ -653,6 +727,7 @@ document.getElementById("scoreKorea").addEventListener("input", renderLiveEvalua
 document.getElementById("saveTicket").addEventListener("click", saveCurrentTicket);
 document.getElementById("evaluateTicket").addEventListener("click", renderTicketEvaluation);
 document.getElementById("clearTicketForm").addEventListener("click", clearTicketForm);
+document.getElementById("ticketImages").addEventListener("change", handleTicketImageUpload);
 ["ticketLegs", "ticketResults", "ticketMultiple"].forEach((id) => {
   document.getElementById(id).addEventListener("input", renderTicketEvaluation);
 });
