@@ -10,29 +10,20 @@
     <main class="app-shell">
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">每日 09:30 自动更新</p>
+          <p class="eyebrow">赛后自动更新</p>
           <h1>世界杯每日情报站</h1>
-          <p class="lede">汇总昨日赛果，给出当日赛前预测、彩票组合推荐、票据录入及核销记录。</p>
+          <p class="lede">每场比赛结束后更新比分、核销票据结果，并刷新后续场次的预测和组合风险。</p>
           <div class="hero-actions">
             <button class="primary-button" id="copyBrief" type="button">复制今日简报</button>
             <a class="secondary-button" href="#emailBody">查看邮件正文</a>
           </div>
         </div>
-        <div class="scoreboard" aria-label="今日重点比赛">
+        <div class="scoreboard" aria-label="今日比赛焦点">
           <div class="scoreboard-top">
-            <span>今日焦点</span>
-            <strong id="focusMatch">西班牙 vs 葡萄牙</strong>
+            <span>今日比赛 Banner</span>
+            <strong>北京时间</strong>
           </div>
-          <div class="pitch">
-            <div class="center-circle"></div>
-            <div class="pitch-line"></div>
-            <div class="team left">ESP</div>
-            <div class="team right">POR</div>
-          </div>
-          <div class="prediction">
-            <span>预测比分</span>
-            <strong id="focusScore">2 - 1</strong>
-          </div>
+          <div class="match-banner-track" id="matchBannerTrack"></div>
         </div>
       </section>
 
