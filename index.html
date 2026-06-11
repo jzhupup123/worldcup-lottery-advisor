@@ -12,7 +12,7 @@
         <div class="hero-copy">
           <p class="eyebrow">每日 09:30 自动更新</p>
           <h1>世界杯每日情报站</h1>
-          <p class="lede">汇总昨日赛果，给出今日赛前分析、预测比分和胜负角度，形成可直接发到邮箱的中文简报。</p>
+          <p class="lede">汇总昨日赛果，给出当日赛前预测、彩票组合推荐、票据录入及核销记录。</p>
           <div class="hero-actions">
             <button class="primary-button" id="copyBrief" type="button">复制今日简报</button>
             <a class="secondary-button" href="#emailBody">查看邮件正文</a>
@@ -47,10 +47,9 @@
         </div>
         <div class="segmented" role="tablist" aria-label="内容视图">
           <button class="segment active" data-panel="summary" type="button">总览</button>
-          <button class="segment" data-panel="matches" type="button">赛前</button>
-          <button class="segment" data-panel="tickets" type="button">组合</button>
-          <button class="segment" data-panel="ledger" type="button">票据</button>
-          <button class="segment" data-panel="review" type="button">复盘</button>
+          <button class="segment" data-panel="matches" type="button">当日赛前预测</button>
+          <button class="segment" data-panel="tickets" type="button">当日彩票组合推荐</button>
+          <button class="segment" data-panel="ledger" type="button">票据录入及核销</button>
         </div>
       </section>
 
@@ -80,7 +79,7 @@
           <div class="panel-heading">
             <div>
               <p class="eyebrow">Preview</p>
-              <h2>赛前分析</h2>
+              <h2>当日赛前预测</h2>
             </div>
           </div>
           <div class="preview-list" id="previewList"></div>
@@ -90,76 +89,15 @@
           <div class="panel-heading">
             <div>
               <p class="eyebrow">Ticket Ideas</p>
-              <h2>当日多关组合建议</h2>
+              <h2>当日彩票组合推荐</h2>
             </div>
             <span class="status-pill">2 场可做 2 串 1</span>
           </div>
           <div class="ticket-board" id="ticketBoard"></div>
           <p class="notice">组合仅用于赛前决策参考。实际可选玩法、让球数、赔率、截止时间以中国体育彩票销售终端为准；不要加注追损。</p>
-        </article>
-
-        <article class="panel span-12 hidden" data-view="ledger">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">Ticket Ledger</p>
-              <h2>彩票台账与自动核奖</h2>
-            </div>
-            <button class="icon-button" id="saveTicket" type="button" title="保存彩票记录">保存</button>
-          </div>
-          <div class="ledger-grid">
-            <section class="ledger-form">
-              <h3>录入票据</h3>
-              <div class="upload-box">
-                <label class="upload-label" for="ticketImages">
-                  <span>上传彩票图片</span>
-                  <strong>选择图片</strong>
-                  <input id="ticketImages" type="file" accept="image/*" multiple>
-                </label>
-                <div class="image-preview-grid" id="ticketImagePreview"></div>
-                <p class="upload-hint">图片会随台账保存在本机浏览器。票面自动识别需要后续接入 OCR，目前先用于留档和人工录入。</p>
-              </div>
-              <div class="form-row">
-                <label>票据名称<input id="ticketTitle" type="text" placeholder="例如 6月11日世界杯 2串1"></label>
-                <label>过关方式<input id="ticketPassType" type="text" placeholder="例如 2x1"></label>
-              </div>
-              <div class="form-row">
-                <label>倍数<input id="ticketMultiple" type="number" min="1" value="1"></label>
-                <label>实付金额<input id="ticketStake" type="number" min="0" step="0.01" placeholder="例如 100"></label>
-                <label>票面最高奖<input id="ticketMaxPrize" type="number" min="0" step="0.01" placeholder="例如 490"></label>
-              </div>
-              <label>
-                选择明细
-                <textarea id="ticketLegs" rows="6" placeholder="每行一关：比赛｜玩法｜选择｜赔率&#10;墨西哥 vs 南非｜让球胜平负(-1)｜让胜｜2.00&#10;韩国 vs 捷克｜胜平负｜胜｜2.45"></textarea>
-              </label>
-              <label>
-                赛果
-                <textarea id="ticketResults" rows="4" placeholder="每行一场：比赛｜比分&#10;墨西哥 vs 南非｜2-0&#10;韩国 vs 捷克｜1-0"></textarea>
-              </label>
-              <div class="ledger-actions">
-                <button class="primary-button compact" id="evaluateTicket" type="button">计算核奖</button>
-                <button class="secondary-action" id="clearTicketForm" type="button">清空表单</button>
-              </div>
-              <div class="live-evaluation" id="ticketEvaluation"></div>
-            </section>
-            <section class="ledger-history">
-              <h3>历史票据</h3>
-              <div class="metric-grid" id="ledgerMetrics"></div>
-              <div class="review-history" id="ticketHistory"></div>
-            </section>
-          </div>
-        </article>
-
-        <article class="panel span-12 hidden" data-view="review">
-          <div class="panel-heading">
-            <div>
-              <p class="eyebrow">Review Loop</p>
-              <h2>赛后命中复盘</h2>
-            </div>
-            <button class="icon-button" id="saveReview" type="button" title="保存复盘记录">保存</button>
-          </div>
-          <div class="review-grid">
+          <div class="review-grid embedded-review">
             <section class="review-form">
-              <h3>录入赛果</h3>
+              <h3>赛后复盘录入</h3>
               <label>
                 墨西哥 vs 南非
                 <input id="scoreMexico" type="text" placeholder="例如 2-1">
@@ -172,13 +110,50 @@
                 复盘备注
                 <textarea id="reviewNote" rows="4" placeholder="例如：墨西哥主场判断正确，韩国场平局风险评估合理"></textarea>
               </label>
+              <button class="primary-button compact" id="saveReview" type="button">保存复盘</button>
               <div class="live-evaluation" id="liveEvaluation"></div>
-              <p class="notice">保存后会在本机浏览器形成历史记录，方便后续统计命中率和优化推荐逻辑。</p>
             </section>
             <section class="review-summary">
-              <h3>当前统计</h3>
+              <h3>历史组合推荐及中奖统计</h3>
               <div class="metric-grid" id="metricGrid"></div>
               <div class="review-history" id="reviewHistory"></div>
+            </section>
+          </div>
+        </article>
+
+        <article class="panel span-12 hidden" data-view="ledger">
+          <div class="panel-heading">
+            <div>
+              <p class="eyebrow">Ticket Ledger</p>
+              <h2>票据录入及核销</h2>
+            </div>
+            <button class="icon-button" id="saveTicket" type="button" title="保存彩票记录">保存票据</button>
+          </div>
+          <div class="ledger-grid">
+            <section class="ledger-form">
+              <h3>上传票据</h3>
+              <div class="upload-box">
+                <label class="upload-label" for="ticketImages">
+                  <span>上传彩票图片</span>
+                  <strong>选择图片</strong>
+                  <input id="ticketImages" type="file" accept="image/*" multiple>
+                </label>
+                <div class="image-preview-grid" id="ticketImagePreview"></div>
+                <p class="upload-hint">图片会随台账保存在本机浏览器。票面自动识别需要后续接入 OCR，目前先用于留档和人工录入。</p>
+              </div>
+              <div class="auto-fields" id="ticketAutoFields">
+                <div class="eval-row"><strong>识别状态</strong><span class="manual">等待上传票据</span></div>
+                <div class="eval-row"><strong>核销状态</strong><span class="manual">待赛果</span></div>
+              </div>
+              <div class="ledger-actions">
+                <button class="secondary-action" id="clearTicketForm" type="button">清空表单</button>
+              </div>
+              <div class="live-evaluation" id="ticketEvaluation"></div>
+            </section>
+            <section class="ledger-history">
+              <h3>历史票据</h3>
+              <div class="metric-grid" id="ledgerMetrics"></div>
+              <div class="review-history" id="ticketHistory"></div>
             </section>
           </div>
         </article>
