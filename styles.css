@@ -333,6 +333,7 @@ h1 {
 .rules-grid,
 .ticket-board,
 .review-grid,
+.ledger-grid,
 .metric-grid,
 .review-history {
   display: grid;
@@ -346,6 +347,8 @@ h1 {
 .ticket-card,
 .review-form,
 .review-summary,
+.ledger-form,
+.ledger-history,
 .metric-card,
 .history-card {
   border: 1px solid var(--line);
@@ -393,6 +396,8 @@ h1 {
 .ticket-card,
 .review-form,
 .review-summary,
+.ledger-form,
+.ledger-history,
 .metric-card,
 .history-card {
   padding: 16px;
@@ -462,17 +467,21 @@ h1 {
   line-height: 1.6;
 }
 
-.review-grid {
+.review-grid,
+.ledger-grid {
   grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
 }
 
 .review-form h3,
-.review-summary h3 {
+.review-summary h3,
+.ledger-form h3,
+.ledger-history h3 {
   margin: 0 0 14px;
   font-size: 18px;
 }
 
-.review-form label {
+.review-form label,
+.ledger-form label {
   display: grid;
   gap: 7px;
   margin-bottom: 12px;
@@ -482,7 +491,9 @@ h1 {
 }
 
 .review-form input,
-.review-form textarea {
+.review-form textarea,
+.ledger-form input,
+.ledger-form textarea {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -490,6 +501,40 @@ h1 {
   color: var(--ink);
   background: #ffffff;
   font: inherit;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.form-row:first-of-type {
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.6fr);
+}
+
+.ledger-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.compact {
+  min-height: 40px;
+  color: #ffffff;
+  background: var(--green);
+}
+
+.secondary-action {
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--green-dark);
+  background: #ffffff;
+  cursor: pointer;
+  font-weight: 800;
 }
 
 .metric-grid {
@@ -725,7 +770,13 @@ h1 {
   }
 
   .review-grid,
+  .ledger-grid,
   .metric-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row,
+  .form-row:first-of-type {
     grid-template-columns: 1fr;
   }
 }
