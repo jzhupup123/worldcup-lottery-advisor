@@ -576,8 +576,7 @@ h1 {
   gap: 8px;
 }
 
-.ticket-image,
-.history-image {
+.ticket-image {
   width: 100%;
   aspect-ratio: 3 / 4;
   object-fit: cover;
@@ -586,12 +585,6 @@ h1 {
   background: #ffffff;
 }
 
-.history-images {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 8px;
-  margin: 10px 0;
-}
 
 .compact {
   min-height: 40px;
@@ -956,8 +949,7 @@ h1 {
     grid-template-columns: 1fr;
   }
 
-  .image-preview-grid,
-  .history-images {
+  .image-preview-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
