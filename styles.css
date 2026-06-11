@@ -468,6 +468,10 @@ h1 {
   line-height: 1.6;
 }
 
+.embedded-review {
+  margin-top: 16px;
+}
+
 .review-grid,
 .ledger-grid {
   grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
@@ -912,16 +916,17 @@ h1 {
 
   .segmented {
     display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     width: 100%;
     gap: 3px;
   }
 
   .segment {
     min-width: 0;
-    min-height: 34px;
+    min-height: 42px;
     padding: 0 4px;
-    font-size: 13px;
+    font-size: 12px;
+    line-height: 1.2;
   }
 
   .panel {
