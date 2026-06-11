@@ -47,6 +47,27 @@ const previews = [
   },
 ];
 
+const matchBanners = [
+  {
+    time: "6 月 12 日 03:00 北京时间",
+    match: "墨西哥 vs 南非",
+    venue: "A 组｜揭幕战｜墨西哥城",
+    score: "预测 2-1",
+    angle: "墨西哥胜，谨慎追让胜",
+    left: "MEX",
+    right: "RSA",
+  },
+  {
+    time: "6 月 12 日清晨 北京时间",
+    match: "韩国 vs 捷克",
+    venue: "A 组｜小组首轮",
+    score: "预测 1-1",
+    angle: "韩国不败，重点防平",
+    left: "KOR",
+    right: "CZE",
+  },
+];
+
 const ticketIdeas = [
   {
     title: "稳健 2 串 1",
@@ -101,8 +122,27 @@ let selectedTicketImages = [];
 let currentRecognizedTicket = null;
 
 document.getElementById("briefDate").textContent = briefDate;
-document.getElementById("focusMatch").textContent = "墨西哥 vs 南非";
-document.getElementById("focusScore").textContent = "2 - 1";
+
+function renderMatchBanners() {
+  const container = document.getElementById("matchBannerTrack");
+  container.innerHTML = matchBanners.map((banner) => `
+    <article class="match-banner">
+      <div class="banner-meta">
+        <span>${banner.time}</span>
+        <strong>${banner.venue}</strong>
+      </div>
+      <div class="banner-teams">
+        <span>${banner.left}</span>
+        <h3>${banner.match}</h3>
+        <span>${banner.right}</span>
+      </div>
+      <div class="banner-bottom">
+        <strong>${banner.score}</strong>
+        <span>${banner.angle}</span>
+      </div>
+    </article>
+  `).join("");
+}
 
 function renderResults() {
   const container = document.getElementById("resultsList");
@@ -493,12 +533,22 @@ function evaluateLedgerTicket(ticket) {
 
   const completed = legResults.length > 0 && legResults.every((item) => item.status !== "待赛果");
   const allHit = completed && legResults.every((item) => item.hit);
-  const calculatedPrize = allHit && !needsManual ? Number((2 * ticket.multiple * product).toFixed(2)) : 0;
+  let calculatedPrize = 0;
+
+  if (completed && !needsManual && ticket.passType === "single") {
+    calculatedPrize = legResults.reduce((sum, item) => {
+      if (!item.hit) return sum;
+      const odd = oddForHit(item.leg, item.actual);
+      return sum + (odd ? 2 * ticket.multiple * odd : 0);
+    }, 0);
+  } else if (allHit && !needsManual) {
+    calculatedPrize = 2 * ticket.multiple * product;
+  }
 
   return {
     legResults,
-    status: !completed ? "待赛果" : allHit ? "中奖" : "未中奖",
-    calculatedPrize,
+    status: !completed ? "待赛果" : calculatedPrize > 0 ? "中奖" : "未中奖",
+    calculatedPrize: Number(calculatedPrize.toFixed(2)),
     needsManual,
   };
 }
@@ -524,10 +574,16 @@ function readTicketForm() {
 }
 
 function loadTickets() {
+  const seedTickets = Array.isArray(window.ticketDataSeed) ? window.ticketDataSeed : [];
   try {
-    return JSON.parse(localStorage.getItem(ticketStorageKey)) || [];
+    const localTickets = JSON.parse(localStorage.getItem(ticketStorageKey)) || [];
+    const localIds = new Set(localTickets.map((ticket) => ticket.id));
+    return [
+      ...seedTickets.filter((ticket) => !localIds.has(ticket.id)),
+      ...localTickets,
+    ];
   } catch {
-    return [];
+    return seedTickets;
   }
 }
 
@@ -825,6 +881,7 @@ document.getElementById("clearTicketForm").addEventListener("click", clearTicket
 document.getElementById("ticketImages").addEventListener("change", handleTicketImageUpload);
 
 renderResults();
+renderMatchBanners();
 renderAngles();
 renderPreviews();
 renderTicketIdeas();
