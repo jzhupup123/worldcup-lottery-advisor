@@ -139,7 +139,7 @@
                   <input id="ticketImages" type="file" accept="image/*" multiple>
                 </label>
                 <div class="image-preview-grid" id="ticketImagePreview"></div>
-                <p class="upload-hint">图片会随台账保存在本机浏览器。票面自动识别需要后续接入 OCR，目前先用于留档和人工录入。</p>
+                <p class="upload-hint">图片仅用于本机识别，不会保存图片本身；系统只保存识别后的票据数据。</p>
               </div>
               <div class="auto-fields" id="ticketAutoFields">
                 <div class="eval-row"><strong>识别状态</strong><span class="manual">等待上传票据</span></div>
@@ -213,6 +213,8 @@
     </main>
 
     <div class="toast" id="toast" role="status" aria-live="polite">已复制</div>
+    <script src="./ticket-data.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="./app.js"></script>
   </body>
 </html>
