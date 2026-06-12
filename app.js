@@ -4,7 +4,7 @@ const briefDate = new Intl.DateTimeFormat("zh-CN", {
   weekday: "long",
 }).format(new Date());
 
-const dataStamp = "截至北京时间 2026-06-12 10:19 查询";
+const dataStamp = "截至北京时间 2026-06-12 14:25 查询";
 
 const yesterdayResults = [
   {
@@ -12,28 +12,29 @@ const yesterdayResults = [
     away: "南非",
     score: "2 - 0",
     stage: "A 组首轮｜揭幕战｜北京时间 6 月 12 日 03:00",
-    note: "据 AP 赛后快讯与 Guardian 现场稿交叉核对，最近 24 小时新增已完赛 1 场。基尼奥内斯第 9 分钟破门，劳尔-希门尼斯第 67 分钟扩大比分，南非两人被罚下、墨西哥补时也吃到红牌，A 组揭幕战最终 2 比 0 收尾。",
+    note: "据 Guardian 终场稿与赛后综述交叉核对，最近 24 小时新增已完赛 2 场中的首场。墨西哥在主场 2 比 0 取胜，劳尔·希门尼斯收获个人世界杯首球；南非有 2 人被罚下，墨西哥补时阶段也吃到红牌，比赛尾声对抗强度明显上升。",
+  },
+  {
+    home: "韩国",
+    away: "捷克",
+    score: "2 - 1",
+    stage: "A 组首轮｜北京时间 6 月 12 日 10:00",
+    note: "据 AP 与 Guardian 终场稿核对，捷克第 59 分钟由拉迪斯拉夫·克雷伊奇头球先开纪录；韩国第 67 分钟由黄仁范扳平，第 80 分钟由替补吴贤揆完成反超，终场 2 比 1 逆转取胜。",
   },
 ];
 
 const waitingMatches = [
   {
-    match: "韩国 vs 捷克",
-    stage: "A 组首轮",
-    time: "6 月 12 日 10:00 北京时间",
-    note: "当前检查时点比赛已于北京时间 10:00 开球，Guardian 在北京时间约 10:06 的现场更新仍显示比赛进行中。两张让球 2 串 1 已先中过墨西哥首关，剩余条件都是韩国常规时间取胜；比分单关仍等待韩国场单独结算；比分 2 串 1 因墨西哥未打出 3-0/3-1，整张票已可直接判负。",
-  },
-  {
     match: "加拿大 vs 波黑",
     stage: "B 组首轮",
     time: "6 月 13 日 03:00 北京时间",
-    note: "加拿大主场揭幕战在北京时间 6 月 13 日 03:00。公开伤停信息仍显示阿方索·戴维斯缺阵，主队边路爆点和回追覆盖都会受影响，赛前更适合小比分保守处理。",
+    note: "这是当前下一场可关注的比赛。Guardian 赛前报道显示加拿大主场氛围、阵容完整度和如何处理主办国压力是主线；马尔施确认科内、邦比托可出战，并对戴维斯恢复保持乐观。新版算法上调主场胜负方向权重，加拿大胜优先于单纯不败。",
   },
   {
     match: "美国 vs 巴拉圭",
     stage: "D 组首轮",
     time: "6 月 13 日 09:00 北京时间",
-    note: "美国坐镇洛杉矶的首战在北京时间 6 月 13 日 09:00。纸面火力更强，但公开前瞻普遍把后场稳定性列为隐患；若临场首发继续偏进攻，需防双方进球。",
+    note: "Guardian 赛前发布会信息显示美国 26 人均可出战，波切蒂诺明确强调放松和信任体系。主队大概率更主动压迫，但近期舆论仍把其后场稳定性与转换防守列为隐患；若临场继续采用更冒险的边后卫推进结构，双方进球方向仍需防范。",
   },
 ];
 
@@ -41,30 +42,30 @@ const previews = [
   {
     match: "加拿大 vs 波黑",
     time: "6 月 13 日 03:00 北京时间",
-    context: "加拿大坐镇多伦多，整体速度和主场氛围占优，但戴维斯缺阵削弱了最强边路爆点；波黑排名更低，不过身体对抗和高空球并不吃亏。",
-    form: "加拿大近年大赛开局波动偏大，若边路推进不顺，进攻会更依赖中前场第二点；波黑更可能接受低控球、压缩禁区前空间。",
-    squad: "重点看加拿大是否让替代者承担更高推进任务，以及波黑是否把高点战术放到前场核心位置。",
-    tactic: "加拿大会主动压上，但缺少戴维斯后边路一对一爆破下降，比赛更可能落到阵地战和定位球效率。",
-    pick: "加拿大不败，小比分优先",
-    score: "1 - 0",
-    conservative: "加拿大平/胜或总进球 1-2",
-    aggressive: "加拿大 1-0",
-    confidence: 58,
-    factors: ["主场开局", "戴维斯缺阵", "波黑防线密度"],
+    context: "加拿大坐镇多伦多，速度、身体对抗和主场氛围占优。公开赛前报道显示科内、邦比托可以出战，戴维斯恢复进展更积极，但是否首发仍要等临场名单。",
+    form: "Guardian 的赛前特写认为加拿大比 2022 年成熟得多，但近期进球转化还不是稳定强项。若主队上半场迟迟打不穿第一层防线，比赛仍容易落入低比分胶着区间。",
+    squad: "重点看乔纳森·戴维与拉林能否持续压住禁区，以及戴维斯若进入名单后，对左路推进和反抢强度能带来多少提升。",
+    tactic: "加拿大预计会主动压上并持续冲击二点，但在确认戴维斯出场时间之前，比赛逻辑仍更像先求控制、再争效率的阵地战。",
+    pick: "加拿大胜，防小比分",
+    score: "2 - 1",
+    conservative: "加拿大不败",
+    aggressive: "加拿大胜",
+    confidence: 61,
+    factors: ["主场开局", "戴维斯恢复进展", "低比分倾向"],
   },
   {
     match: "美国 vs 巴拉圭",
     time: "6 月 13 日 09:00 北京时间",
-    context: "美国主场声量和锋线纸面更强，但公开前瞻普遍把后防稳定性列为隐患；巴拉圭的反击执行和对抗强度足够制造麻烦。",
-    form: "美国在波切蒂诺体系下更强调主动进攻和高位施压，巴拉圭则更适合中低位防守后直接打身后与肋部。",
-    squad: "关注普利希奇、巴洛贡和麦肯尼的前场组合，以及巴拉圭的恩西索、戈麦斯能否在转换里持续冲击。",
-    tactic: "美国若先入球，节奏会明显向主队倾斜；若迟迟打不开，巴拉圭的反击和定位球会把比赛拖进五五开区间。",
-    pick: "美国不败，防双方进球",
+    context: "美国主场声量和锋线纸面更强，Guardian 赛前发布会信息显示 26 人都可出战；但公开前瞻仍普遍把后防稳定性和门将环节列为隐患。",
+    form: "波切蒂诺体系更强调主动进攻与高位施压，巴拉圭则更适合中低位防守后直接打肋部和身后，比赛节奏很可能出现明显拉扯。",
+    squad: "关注普利希奇、巴洛贡、麦肯尼的前场联动，以及巴拉圭的恩西索、戈麦斯能否在转换里持续冲击美国防线。",
+    tactic: "美国若先入球，节奏会明显向主队倾斜；若前 30 分钟迟迟打不开，巴拉圭的反击和定位球会把比赛拖进五五开区间。",
+    pick: "美国胜，防平局",
     score: "2 - 1",
     conservative: "美国平/胜",
-    aggressive: "美国胜且双方进球",
-    confidence: 56,
-    factors: ["美国主场", "前场火力", "后场防反风险"],
+    aggressive: "美国胜",
+    confidence: 59,
+    factors: ["美国主场", "全员可用", "后场防反风险"],
   },
 ];
 
@@ -74,16 +75,16 @@ const matchBanners = [
     match: "墨西哥 vs 南非",
     venue: "A 组｜揭幕战｜墨西哥城",
     score: "终场 2-0",
-    angle: "让胜首关命中，比分 2 串 1 已出局",
+    angle: "墨西哥赢球兑现首关，公开票据进入最终核销",
     left: "MEX",
     right: "RSA",
   },
   {
-    time: "6 月 12 日 10:00 北京时间｜进行中",
+    time: "6 月 12 日 10:00 北京时间｜已完赛",
     match: "韩国 vs 捷克",
     venue: "A 组｜小组首轮",
-    score: "已开赛｜待完赛",
-    angle: "公开票据等待终场，新单不追",
+    score: "终场 2-1",
+    angle: "韩国逆转后，2 张让球串关命中、2 张比分票未中",
     left: "KOR",
     right: "CZE",
   },
@@ -91,8 +92,8 @@ const matchBanners = [
     time: "6 月 13 日 03:00 北京时间",
     match: "加拿大 vs 波黑",
     venue: "B 组｜小组首轮",
-    score: "预测 1-0",
-    angle: "加拿大不败，小比分优先",
+    score: "预测 2-1",
+    angle: "加拿大胜，防小比分",
     left: "CAN",
     right: "BIH",
   },
@@ -101,7 +102,7 @@ const matchBanners = [
     match: "美国 vs 巴拉圭",
     venue: "D 组｜小组首轮",
     score: "预测 2-1",
-    angle: "美国不败，防双方进球",
+    angle: "美国胜，防平局",
     left: "USA",
     right: "PAR",
   },
@@ -121,37 +122,48 @@ const reviewTicketIdeas = [
 
 const ticketIdeas = [
   {
-    title: "加拿大场保守主线",
+    title: "均衡主推 2 串 1",
     type: "主推",
     recommended: true,
     picks: [
-      "加拿大 vs 波黑：加拿大不败",
-      "总进球 1 / 2，更偏 1-0、1-1 区间",
+      "加拿大 vs 波黑：加拿大胜",
+      "美国 vs 巴拉圭：美国胜 / 平",
     ],
-    reason: "韩国场已经开球，新的赛前推荐应完全转向仍可售的后续窗口。加拿大有主场与速度优势，但戴维斯缺阵明显压低了穿盘把握，更适合保守玩法。",
-    stake: "建议轻仓单关或总进球，不建议提前做深串。",
+    reason: "算法从纯保守切到均衡偏进取：加拿大用主场和阵容完整度做胜负方向，美国场保留防平来控制串关断点。",
+    stake: "适合作为主组合，赔率空间比双不败更好，风险中等。",
   },
   {
-    title: "美国场进攻向观察",
-    type: "中风险",
+    title: "进取 2 串 1",
+    type: "进取",
     recommended: false,
     picks: [
-      "美国 vs 巴拉圭：美国平/胜",
-      "进取可看双方进球 / 2-1 比分小注",
+      "加拿大 vs 波黑：加拿大胜",
+      "美国 vs 巴拉圭：美国胜",
     ],
-    reason: "美国纸面火力足以形成压制，但后场对转换的保护并不让人完全放心。与其追让球，不如留在美国不败或双方进球这类容错更高的方向。",
-    stake: "适合临场确认首发后再决定是否出手。",
+    reason: "两场都压主队主动权和进攻兑现，收益更好，但美国后防被巴拉圭反击拖平的风险仍然存在。",
+    stake: "只建议小于主组合仓位，不适合作唯一重仓。",
   },
   {
-    title: "串关风控提示",
-    type: "风控",
+    title: "比分进取小注",
+    type: "高赔小注",
     recommended: false,
     picks: [
-      "韩国 vs 捷克：已开球，不再纳入新组合",
-      "若加拿大或美国临场首发明显走弱，优先放弃串关而不是硬凑 2 串 1",
+      "加拿大 vs 波黑：2-1 / 1-0",
+      "美国 vs 巴拉圭：2-1 / 3-1",
     ],
-    reason: "当前真正可做的只剩加拿大和美国两场。为追求赔率把已开球比赛或把握不足的主胜强行拼进串关，风险远高于收益。",
-    stake: "放弃凑单优先于强行做串关。",
+    reason: "比分模块提高进攻兑现权重，不再只压低比分。美国场保留 3-1，是主场强攻打穿后的赔率补充。",
+    stake: "严格小注，作为增强收益，不作为主仓。",
+  },
+  {
+    title: "算法风控线",
+    type: "规则",
+    recommended: false,
+    picks: [
+      "优先找胜负方向，其次才用不败兜底",
+      "赔率价值、主场强度、进攻兑现权重上调",
+    ],
+    reason: "新版算法不会默认保守，但仍保留硬风控：已开球不推荐、关键伤停降权、串关第一关失败立即止损判断。",
+    stake: "进取不等于加仓，仍按主组合、小注补充、劣质场次放弃来分配。",
   },
 ];
 
@@ -669,6 +681,132 @@ function saveTickets(tickets) {
   localStorage.setItem(ticketStorageKey, JSON.stringify(tickets));
 }
 
+function normalizeTicketDate(ticket) {
+  const titleMatch = String(ticket.title || "").match(/\d{4}-\d{2}-\d{2}/);
+  if (titleMatch) return titleMatch[0];
+
+  const createdAtMatch = String(ticket.createdAt || "").match(/(\d{4})[/-](\d{1,2})[/-](\d{1,2})/);
+  if (!createdAtMatch) return "未分组";
+
+  const [, year, month, day] = createdAtMatch;
+  return [
+    year,
+    month.padStart(2, "0"),
+    day.padStart(2, "0"),
+  ].join("-");
+}
+
+function signedAmount(value) {
+  if (value > 0) return `+${value.toFixed(2)} 元`;
+  if (value < 0) return `${value.toFixed(2)} 元`;
+  return "0.00 元";
+}
+
+function profitClassName(value) {
+  if (value > 0) return "profit-positive";
+  if (value < 0) return "profit-negative";
+  return "";
+}
+
+function buildLedgerBook(evaluated) {
+  const totals = {
+    totalStake: 0,
+    settledStake: 0,
+    settledPrize: 0,
+    pendingStake: 0,
+    settledCount: 0,
+    pendingCount: 0,
+  };
+  const dailyMap = new Map();
+
+  evaluated.forEach(({ ticket, evaluation }) => {
+    const stake = Number(ticket.stake || 0);
+    const prize = Number(evaluation.calculatedPrize || 0);
+    const pending = ["待赛果", "进行中"].includes(evaluation.status);
+    const dateKey = normalizeTicketDate(ticket);
+
+    totals.totalStake += stake;
+    if (pending) {
+      totals.pendingStake += stake;
+      totals.pendingCount += 1;
+    } else {
+      totals.settledStake += stake;
+      totals.settledPrize += prize;
+      totals.settledCount += 1;
+    }
+
+    if (!dailyMap.has(dateKey)) {
+      dailyMap.set(dateKey, {
+        date: dateKey,
+        stake: 0,
+        prize: 0,
+        settledStake: 0,
+        pendingStake: 0,
+        settledCount: 0,
+        pendingCount: 0,
+        wonCount: 0,
+        lostCount: 0,
+      });
+    }
+
+    const bucket = dailyMap.get(dateKey);
+    bucket.stake += stake;
+    bucket.prize += prize;
+    if (pending) {
+      bucket.pendingStake += stake;
+      bucket.pendingCount += 1;
+    } else {
+      bucket.settledStake += stake;
+      bucket.settledCount += 1;
+      if (evaluation.status === "中奖") {
+        bucket.wonCount += 1;
+      } else if (evaluation.status === "未中奖") {
+        bucket.lostCount += 1;
+      }
+    }
+  });
+
+  const daily = Array.from(dailyMap.values())
+    .map((bucket) => ({
+      ...bucket,
+      settledProfit: Number((bucket.prize - bucket.settledStake).toFixed(2)),
+    }))
+    .sort((a, b) => a.date.localeCompare(b.date));
+
+  return {
+    totals: {
+      ...totals,
+      settledProfit: Number((totals.settledPrize - totals.settledStake).toFixed(2)),
+    },
+    daily,
+  };
+}
+
+function renderProfitBook(evaluated) {
+  const { totals, daily } = buildLedgerBook(evaluated);
+
+  document.getElementById("profitMetrics").innerHTML = `
+    <div class="metric-card"><span>累计投入</span><strong>${totals.totalStake.toFixed(2)}</strong></div>
+    <div class="metric-card"><span>已返奖金</span><strong>${totals.settledPrize.toFixed(2)}</strong></div>
+    <div class="metric-card"><span>已结算盈亏</span><strong class="${profitClassName(totals.settledProfit)}">${signedAmount(totals.settledProfit)}</strong></div>
+    <div class="metric-card"><span>待结算本金</span><strong>${totals.pendingStake.toFixed(2)}</strong></div>
+  `;
+
+  const history = document.getElementById("profitHistory");
+  if (!daily.length) {
+    history.innerHTML = `<div class="history-card"><h4>暂无账本记录</h4><p>保存票据后，这里会按日期自动汇总投入、返奖和盈亏。</p></div>`;
+    return;
+  }
+
+  history.innerHTML = daily.slice().reverse().map((bucket) => `
+    <article class="history-card">
+      <h4>${bucket.date}｜已结算盈亏 <span class="${profitClassName(bucket.settledProfit)}">${signedAmount(bucket.settledProfit)}</span></h4>
+      <p>投入 ${bucket.stake.toFixed(2)} 元；已返奖金 ${bucket.prize.toFixed(2)} 元；待结算本金 ${bucket.pendingStake.toFixed(2)} 元。</p>
+      <p>已结算 ${bucket.settledCount} 张，待结算 ${bucket.pendingCount} 张；中奖 ${bucket.wonCount} 张，未中奖 ${bucket.lostCount} 张。</p>
+    </article>
+  `).join("");
+}
+
 function renderTicketEvaluation() {
   const ticket = readTicketForm();
   const evaluation = evaluateLedgerTicket(ticket);
@@ -705,9 +843,12 @@ function renderTicketHistory() {
 
   const history = document.getElementById("ticketHistory");
   if (!tickets.length) {
+    renderProfitBook([]);
     history.innerHTML = `<div class="history-card"><h4>暂无票据</h4><p>你每天把彩票发给我后，我会按票面内容录入这里，赛后再核奖。</p></div>`;
     return;
   }
+
+  renderProfitBook(evaluated);
 
   history.innerHTML = evaluated.slice().reverse().map(({ ticket, evaluation }) => `
     <article class="history-card">
@@ -736,6 +877,29 @@ function buildTicketSummaryLines() {
     const suffix = waiting ? `；剩余条件：${waiting}` : "";
     return `- ${ticket.title}｜${evaluation.status}｜${evaluation.summary}${suffix}`;
   });
+}
+
+function buildProfitSummaryLines() {
+  const evaluated = loadTickets().map((ticket) => ({ ticket, evaluation: evaluateLedgerTicket(ticket) }));
+  const { totals, daily } = buildLedgerBook(evaluated);
+
+  if (!evaluated.length) {
+    return [
+      "- 暂无票据账本记录",
+    ];
+  }
+
+  const lines = [
+    `- 累计投入 ${totals.totalStake.toFixed(2)} 元，已返奖金 ${totals.settledPrize.toFixed(2)} 元，已结算盈亏 ${signedAmount(totals.settledProfit)}，待结算本金 ${totals.pendingStake.toFixed(2)} 元。`,
+  ];
+
+  daily.slice().reverse().forEach((bucket) => {
+    lines.push(
+      `- ${bucket.date}：投入 ${bucket.stake.toFixed(2)} 元，返奖 ${bucket.prize.toFixed(2)} 元，已结算盈亏 ${signedAmount(bucket.settledProfit)}，待结算 ${bucket.pendingCount} 张。`
+    );
+  });
+
+  return lines;
 }
 
 function saveCurrentTicket() {
@@ -903,6 +1067,7 @@ function buildEmail() {
   )).join("\n");
 
   const ticketStatusText = buildTicketSummaryLines().join("\n");
+  const profitBookText = buildProfitSummaryLines().join("\n");
 
   return `主题：世界杯每日赛果与当日赛前预测｜${briefDate}
 
@@ -921,13 +1086,16 @@ ${waitingText}
 三、票据核销变化
 ${ticketStatusText}
 
-四、今日/下一比赛日赛前预测
+四、收益记账
+${profitBookText}
+
+五、今日/下一比赛日赛前预测
 ${previewText}
 
-五、当日彩票组合推荐
+六、当日彩票组合推荐
 ${ticketText}
 
-六、提示
+七、提示
 ${disclaimer}
 实际玩法、赔率、让球数和截止时间以中国体育彩票官方销售终端为准。`;
 }
