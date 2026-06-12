@@ -4,114 +4,154 @@ const briefDate = new Intl.DateTimeFormat("zh-CN", {
   weekday: "long",
 }).format(new Date());
 
-const dataStamp = "截至北京时间 2026-06-11 16:51 查询";
+const dataStamp = "截至北京时间 2026-06-12 10:19 查询";
 
 const yesterdayResults = [
   {
-    home: "6 月 10 日",
-    away: "无正赛",
-    score: "-",
-    stage: "世界杯开赛前一天",
-    note: "2026 世界杯于 6 月 11 日开赛，因此前一天没有可汇总的正式比赛结果。",
+    home: "墨西哥",
+    away: "南非",
+    score: "2 - 0",
+    stage: "A 组首轮｜揭幕战｜北京时间 6 月 12 日 03:00",
+    note: "据 AP 赛后快讯与 Guardian 现场稿交叉核对，最近 24 小时新增已完赛 1 场。基尼奥内斯第 9 分钟破门，劳尔-希门尼斯第 67 分钟扩大比分，南非两人被罚下、墨西哥补时也吃到红牌，A 组揭幕战最终 2 比 0 收尾。",
+  },
+];
+
+const waitingMatches = [
+  {
+    match: "韩国 vs 捷克",
+    stage: "A 组首轮",
+    time: "6 月 12 日 10:00 北京时间",
+    note: "当前检查时点比赛已于北京时间 10:00 开球，Guardian 在北京时间约 10:06 的现场更新仍显示比赛进行中。两张让球 2 串 1 已先中过墨西哥首关，剩余条件都是韩国常规时间取胜；比分单关仍等待韩国场单独结算；比分 2 串 1 因墨西哥未打出 3-0/3-1，整张票已可直接判负。",
+  },
+  {
+    match: "加拿大 vs 波黑",
+    stage: "B 组首轮",
+    time: "6 月 13 日 03:00 北京时间",
+    note: "加拿大主场揭幕战在北京时间 6 月 13 日 03:00。公开伤停信息仍显示阿方索·戴维斯缺阵，主队边路爆点和回追覆盖都会受影响，赛前更适合小比分保守处理。",
+  },
+  {
+    match: "美国 vs 巴拉圭",
+    stage: "D 组首轮",
+    time: "6 月 13 日 09:00 北京时间",
+    note: "美国坐镇洛杉矶的首战在北京时间 6 月 13 日 09:00。纸面火力更强，但公开前瞻普遍把后场稳定性列为隐患；若临场首发继续偏进攻，需防双方进球。",
   },
 ];
 
 const previews = [
   {
-    match: "墨西哥 vs 南非",
-    time: "6 月 12 日 03:00 北京时间",
-    context: "揭幕战在墨西哥城进行，墨西哥拥有主场、海拔和熟悉环境优势。",
-    form: "墨西哥近期热身赛状态较好，南非需要适应客场环境和揭幕战强度。",
-    squad: "关注墨西哥的劳尔-希门尼斯、埃德森-阿尔瓦雷斯，以及南非的莱尔-福斯特。",
-    tactic: "墨西哥会尝试用边路推进和定位球制造压力，南非更可能先稳住防线再打反击。",
-    pick: "墨西哥胜",
-    score: "2 - 1",
-    conservative: "墨西哥不败",
-    aggressive: "墨西哥胜",
-    confidence: 66,
-    factors: ["主场优势", "揭幕战压力", "定位球"],
+    match: "加拿大 vs 波黑",
+    time: "6 月 13 日 03:00 北京时间",
+    context: "加拿大坐镇多伦多，整体速度和主场氛围占优，但戴维斯缺阵削弱了最强边路爆点；波黑排名更低，不过身体对抗和高空球并不吃亏。",
+    form: "加拿大近年大赛开局波动偏大，若边路推进不顺，进攻会更依赖中前场第二点；波黑更可能接受低控球、压缩禁区前空间。",
+    squad: "重点看加拿大是否让替代者承担更高推进任务，以及波黑是否把高点战术放到前场核心位置。",
+    tactic: "加拿大会主动压上，但缺少戴维斯后边路一对一爆破下降，比赛更可能落到阵地战和定位球效率。",
+    pick: "加拿大不败，小比分优先",
+    score: "1 - 0",
+    conservative: "加拿大平/胜或总进球 1-2",
+    aggressive: "加拿大 1-0",
+    confidence: 58,
+    factors: ["主场开局", "戴维斯缺阵", "波黑防线密度"],
   },
   {
-    match: "韩国 vs 捷克",
-    time: "6 月 12 日清晨 北京时间",
-    context: "同属 A 组首轮，韩国需要抢开局积分，捷克重返世界杯后的第一场也会非常谨慎。",
-    form: "韩国进攻端有孙兴慜、李刚仁等核心，捷克整体对抗和防守纪律更强。",
-    squad: "关注韩国前场核心状态，以及捷克中后场对韩国速度的限制效果。",
-    tactic: "韩国更可能主动提速，捷克会用身体对抗和中场压迫降低比赛节奏。",
-    pick: "韩国不败",
-    score: "1 - 1",
-    conservative: "韩国不败",
-    aggressive: "平局",
-    confidence: 58,
-    factors: ["前场速度", "中场对抗", "首轮谨慎"],
+    match: "美国 vs 巴拉圭",
+    time: "6 月 13 日 09:00 北京时间",
+    context: "美国主场声量和锋线纸面更强，但公开前瞻普遍把后防稳定性列为隐患；巴拉圭的反击执行和对抗强度足够制造麻烦。",
+    form: "美国在波切蒂诺体系下更强调主动进攻和高位施压，巴拉圭则更适合中低位防守后直接打身后与肋部。",
+    squad: "关注普利希奇、巴洛贡和麦肯尼的前场组合，以及巴拉圭的恩西索、戈麦斯能否在转换里持续冲击。",
+    tactic: "美国若先入球，节奏会明显向主队倾斜；若迟迟打不开，巴拉圭的反击和定位球会把比赛拖进五五开区间。",
+    pick: "美国不败，防双方进球",
+    score: "2 - 1",
+    conservative: "美国平/胜",
+    aggressive: "美国胜且双方进球",
+    confidence: 56,
+    factors: ["美国主场", "前场火力", "后场防反风险"],
   },
 ];
 
 const matchBanners = [
   {
-    time: "6 月 12 日 03:00 北京时间",
+    time: "6 月 12 日 03:00 北京时间｜已完赛",
     match: "墨西哥 vs 南非",
     venue: "A 组｜揭幕战｜墨西哥城",
-    score: "预测 2-1",
-    angle: "墨西哥胜，谨慎追让胜",
+    score: "终场 2-0",
+    angle: "让胜首关命中，比分 2 串 1 已出局",
     left: "MEX",
     right: "RSA",
   },
   {
-    time: "6 月 12 日清晨 北京时间",
+    time: "6 月 12 日 10:00 北京时间｜进行中",
     match: "韩国 vs 捷克",
     venue: "A 组｜小组首轮",
-    score: "预测 1-1",
-    angle: "韩国不败，重点防平",
+    score: "已开赛｜待完赛",
+    angle: "公开票据等待终场，新单不追",
     left: "KOR",
     right: "CZE",
+  },
+  {
+    time: "6 月 13 日 03:00 北京时间",
+    match: "加拿大 vs 波黑",
+    venue: "B 组｜小组首轮",
+    score: "预测 1-0",
+    angle: "加拿大不败，小比分优先",
+    left: "CAN",
+    right: "BIH",
+  },
+  {
+    time: "6 月 13 日 09:00 北京时间",
+    match: "美国 vs 巴拉圭",
+    venue: "D 组｜小组首轮",
+    score: "预测 2-1",
+    angle: "美国不败，防双方进球",
+    left: "USA",
+    right: "PAR",
+  },
+];
+
+const reviewTicketIdeas = [
+  {
+    title: "稳健 2 串 1",
+  },
+  {
+    title: "进球数 2 串 1",
+  },
+  {
+    title: "比分小注组合",
   },
 ];
 
 const ticketIdeas = [
   {
-    title: "稳健 2 串 1",
+    title: "加拿大场保守主线",
     type: "主推",
     recommended: true,
     picks: [
-      "墨西哥 vs 南非：胜平负选墨西哥胜",
-      "韩国 vs 捷克：胜平负双选韩国胜 / 平",
+      "加拿大 vs 波黑：加拿大不败",
+      "总进球 1 / 2，更偏 1-0、1-1 区间",
     ],
-    reason: "用墨西哥主场优势做胆，韩国场防平。双选会增加注数，但比单挑韩国胜更稳。",
-    stake: "建议低倍参与；按 2 元基础注计算，韩国双选会拆成 2 注。",
+    reason: "韩国场已经开球，新的赛前推荐应完全转向仍可售的后续窗口。加拿大有主场与速度优势，但戴维斯缺阵明显压低了穿盘把握，更适合保守玩法。",
+    stake: "建议轻仓单关或总进球，不建议提前做深串。",
   },
   {
-    title: "进球数 2 串 1",
+    title: "美国场进攻向观察",
     type: "中风险",
     recommended: false,
     picks: [
-      "墨西哥 vs 南非：总进球 2 / 3",
-      "韩国 vs 捷克：总进球 1 / 2",
+      "美国 vs 巴拉圭：美国平/胜",
+      "进取可看双方进球 / 2-1 比分小注",
     ],
-    reason: "两场都是小组首轮，谨慎开局概率不低。墨西哥场更可能 2-1 或 2-0，韩国场更偏 1-1、1-0、0-1。",
-    stake: "总进球容错比比分高，但多选会明显增加注数。",
+    reason: "美国纸面火力足以形成压制，但后场对转换的保护并不让人完全放心。与其追让球，不如留在美国不败或双方进球这类容错更高的方向。",
+    stake: "适合临场确认首发后再决定是否出手。",
   },
   {
-    title: "比分小注组合",
-    type: "高风险",
+    title: "串关风控提示",
+    type: "风控",
     recommended: false,
     picks: [
-      "墨西哥 vs 南非：2-1 / 2-0",
-      "韩国 vs 捷克：1-1 / 1-0",
+      "韩国 vs 捷克：已开球，不再纳入新组合",
+      "若加拿大或美国临场首发明显走弱，优先放弃串关而不是硬凑 2 串 1",
     ],
-    reason: "比分玩法赔率高但命中率低，只适合作为娱乐小注，不适合作为主仓。",
-    stake: "严格小额，错一场即影响整张组合。",
-  },
-  {
-    title: "让球观察组合",
-    type: "条件单",
-    recommended: false,
-    picks: [
-      "若墨西哥官方让 -1：优先看让平，其次让负",
-      "若韩国官方让 -1：不追让胜，倾向放弃或看让负",
-    ],
-    reason: "世界杯揭幕和首轮通常不宜过度追穿盘。让球数必须以销售终端实时显示为准。",
-    stake: "只有当赔率和让球数匹配预期时再考虑。",
+    reason: "当前真正可做的只剩加拿大和美国两场。为追求赔率把已开球比赛或把握不足的主胜强行拼进串关，风险远高于收益。",
+    stake: "放弃凑单优先于强行做串关。",
   },
 ];
 
@@ -263,8 +303,8 @@ function evaluateTicketIdea(idea, scores) {
 
   if (idea.title === "稳健 2 串 1") {
     return {
-      status: mexicoOutcome === "胜" && includesAny(koreaOutcome, ["胜", "平"]) ? "命中" : "未中",
-      hit: mexicoOutcome === "胜" && includesAny(koreaOutcome, ["胜", "平"]),
+      status: mexicoOutcome === "胜" && includesAny(koreaOutcome, ["平", "负"]) ? "命中" : "未中",
+      hit: mexicoOutcome === "胜" && includesAny(koreaOutcome, ["平", "负"]),
     };
   }
 
@@ -339,7 +379,7 @@ function saveCurrentReview() {
     return;
   }
 
-  const results = ticketIdeas.map((idea) => ({
+  const results = reviewTicketIdeas.map((idea) => ({
     title: idea.title,
     ...evaluateTicketIdea(idea, scores),
   }));
@@ -516,18 +556,26 @@ function evaluateLedgerTicket(ticket) {
   const results = ticket.results.map(parseResultLine).filter(Boolean);
   let product = 1;
   let needsManual = false;
+  let hasPending = false;
+  let hasMiss = false;
+  let hitCount = 0;
 
   const legResults = legs.map((leg) => {
     const result = findResultForLeg(leg, results);
     const actual = resultForPlay(leg, result && result.score);
     if (!actual) {
-      needsManual = true;
+      hasPending = true;
       return { leg, actual: "待赛果", status: "待赛果", hit: false };
     }
     const hit = leg.picks.includes(actual);
     const odd = hit ? oddForHit(leg, actual) : null;
     if (hit && !odd) needsManual = true;
     if (hit && odd) product *= odd;
+    if (hit) {
+      hitCount += 1;
+    } else {
+      hasMiss = true;
+    }
     return { leg, actual, status: hit ? "命中" : "未中", hit };
   });
 
@@ -545,9 +593,39 @@ function evaluateLedgerTicket(ticket) {
     calculatedPrize = 2 * ticket.multiple * product;
   }
 
+  let status = "待赛果";
+  if (ticket.passType === "single") {
+    if (completed) {
+      status = calculatedPrize > 0 ? "中奖" : "未中奖";
+    } else if (hitCount > 0 || hasMiss) {
+      status = "进行中";
+    }
+  } else if (completed) {
+    status = calculatedPrize > 0 ? "中奖" : "未中奖";
+  } else if (hasMiss) {
+    status = "未中奖";
+  } else if (hasPending && hitCount > 0) {
+    status = "进行中";
+  }
+
+  let summary = "等待首场赛果。";
+  if (ticket.passType === "single" && hasPending && (hitCount > 0 || hasMiss)) {
+    const missedCount = legResults.filter((item) => item.status === "未中").length;
+    summary = `单关已结算 ${hitCount + missedCount} 场：命中 ${hitCount} 场，未中 ${missedCount} 场，剩余 ${legResults.length - hitCount - missedCount} 场待赛果。`;
+  } else if (ticket.passType !== "single" && hasMiss) {
+    summary = "串关已出现失手场次，整张票已可判定未中奖。";
+  } else if (ticket.passType !== "single" && hitCount > 0 && hasPending) {
+    summary = `已命中 ${hitCount} 关，剩余 ${legResults.length - hitCount} 关待赛果。`;
+  } else if (completed && calculatedPrize > 0) {
+    summary = `全部命中，理论奖金 ${calculatedPrize.toFixed(2)} 元。`;
+  } else if (completed) {
+    summary = "已全部完赛，未达到中奖条件。";
+  }
+
   return {
     legResults,
-    status: !completed ? "待赛果" : calculatedPrize > 0 ? "中奖" : "未中奖",
+    status,
+    summary,
     calculatedPrize: Number(calculatedPrize.toFixed(2)),
     needsManual,
   };
@@ -635,12 +713,29 @@ function renderTicketHistory() {
     <article class="history-card">
       <h4>${ticket.title}｜${evaluation.status}</h4>
       <p>识别：${ticket.recognitionStatus || "待系统识别"}；过关：${ticket.passType}；理论奖金：${evaluation.calculatedPrize.toFixed(2)} 元</p>
+      <p>核销说明：${evaluation.summary}</p>
       <p>投入：${ticket.stake || 0} 元；倍数：${ticket.multiple || 0}；最高奖：${ticket.maxPrize || 0} 元；录入：${ticket.createdAt}</p>
       ${ticket.games && ticket.games.length ? `<p>比赛：${ticket.games.map((game) => game.match).join("，")}</p>` : ""}
       ${ticket.picks && ticket.picks.length ? `<p>选项：${ticket.picks.map((pick) => `${pick.play} ${pick.pick}@${pick.odd}`).join("，")}</p>` : ""}
       ${evaluation.legResults.map((item) => `<p>${item.leg.match}：${item.leg.play} ${item.leg.picks.join("/")}，赛果判断 ${item.actual}，${item.status}</p>`).join("")}
     </article>
   `).join("");
+}
+
+function buildTicketSummaryLines() {
+  const tickets = loadTickets().map((ticket) => ({ ticket, evaluation: evaluateLedgerTicket(ticket) }));
+  if (!tickets.length) {
+    return ["- 暂无公开票据需要核销"];
+  }
+
+  return tickets.map(({ ticket, evaluation }) => {
+    const waiting = evaluation.legResults
+      .filter((item) => item.status === "待赛果")
+      .map((item) => item.leg.match)
+      .join("、");
+    const suffix = waiting ? `；剩余条件：${waiting}` : "";
+    return `- ${ticket.title}｜${evaluation.status}｜${evaluation.summary}${suffix}`;
+  });
 }
 
 function saveCurrentTicket() {
@@ -777,7 +872,7 @@ function renderLiveEvaluation() {
     return;
   }
 
-  container.innerHTML = ticketIdeas.map((idea) => {
+  container.innerHTML = reviewTicketIdeas.map((idea) => {
     const result = evaluateTicketIdea(idea, scores);
     const className = result.status === "命中" ? "hit" : result.status === "未中" ? "miss" : "manual";
     return `<div class="eval-row"><strong>${idea.title}</strong><span class="${className}">${result.status}</span></div>`;
@@ -803,6 +898,12 @@ function buildEmail() {
     `  资金：${idea.stake}`
   )).join("\n\n");
 
+  const waitingText = waitingMatches.map((item) => (
+    `- ${item.match}｜${item.stage}｜${item.time}\n  ${item.note}`
+  )).join("\n");
+
+  const ticketStatusText = buildTicketSummaryLines().join("\n");
+
   return `主题：世界杯每日赛果与当日赛前预测｜${briefDate}
 
 你好，
@@ -814,14 +915,21 @@ function buildEmail() {
 一、昨日赛果
 ${resultText}
 
-二、今日/下一比赛日赛前预测
+二、仍在等待的比赛
+${waitingText}
+
+三、票据核销变化
+${ticketStatusText}
+
+四、今日/下一比赛日赛前预测
 ${previewText}
 
-三、当日彩票组合推荐
+五、当日彩票组合推荐
 ${ticketText}
 
-四、提示
-${disclaimer}`;
+六、提示
+${disclaimer}
+实际玩法、赔率、让球数和截止时间以中国体育彩票官方销售终端为准。`;
 }
 
 function renderEmail() {
