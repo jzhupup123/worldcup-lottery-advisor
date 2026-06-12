@@ -12,7 +12,8 @@ window.ticketDataSeed = [
       "韩国 vs 捷克｜胜平负｜胜｜2.450"
     ],
     results: [
-      "墨西哥 vs 南非｜2-0"
+      "墨西哥 vs 南非｜2-0",
+      "韩国 vs 捷克｜2-1"
     ],
     games: [
       { match: "墨西哥 vs 南非", home: "墨西哥", away: "南非" },
@@ -38,7 +39,8 @@ window.ticketDataSeed = [
       "韩国 vs 捷克｜胜平负｜胜｜2.450"
     ],
     results: [
-      "墨西哥 vs 南非｜2-0"
+      "墨西哥 vs 南非｜2-0",
+      "韩国 vs 捷克｜2-1"
     ],
     games: [
       { match: "墨西哥 vs 南非", home: "墨西哥", away: "南非" },
@@ -64,7 +66,8 @@ window.ticketDataSeed = [
       "韩国 vs 捷克｜比分｜0-0/1-1｜0-0@8.500/1-1@4.250"
     ],
     results: [
-      "墨西哥 vs 南非｜2-0"
+      "墨西哥 vs 南非｜2-0",
+      "韩国 vs 捷克｜2-1"
     ],
     games: [
       { match: "墨西哥 vs 南非", home: "墨西哥", away: "南非" },
@@ -92,7 +95,8 @@ window.ticketDataSeed = [
       "韩国 vs 捷克｜比分｜0-0/1-1｜0-0@8.500/1-1@4.250"
     ],
     results: [
-      "墨西哥 vs 南非｜2-0"
+      "墨西哥 vs 南非｜2-0",
+      "韩国 vs 捷克｜2-1"
     ],
     games: [
       { match: "墨西哥 vs 南非", home: "墨西哥", away: "南非" },
