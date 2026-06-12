@@ -610,7 +610,7 @@ h1 {
 }
 
 .metric-grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
 }
 
 .metric-card {
@@ -644,6 +644,25 @@ h1 {
   color: var(--muted);
   font-size: 13px;
   line-height: 1.55;
+}
+
+.profit-section {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.profit-section h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.profit-positive {
+  color: var(--green-dark) !important;
+}
+
+.profit-negative {
+  color: var(--red) !important;
 }
 
 .live-evaluation {
