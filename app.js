@@ -4,170 +4,241 @@ const briefDate = new Intl.DateTimeFormat("zh-CN", {
   weekday: "long",
 }).format(new Date());
 
-const dataStamp = "截至北京时间 2026-06-12 14:25 查询";
+const dataStamp = "截至北京时间 2026-06-13 12:05 查询";
 
 const yesterdayResults = [
   {
-    home: "墨西哥",
-    away: "南非",
-    score: "2 - 0",
-    stage: "A 组首轮｜揭幕战｜北京时间 6 月 12 日 03:00",
-    note: "据 Guardian 终场稿与赛后综述交叉核对，最近 24 小时新增已完赛 2 场中的首场。墨西哥在主场 2 比 0 取胜，劳尔·希门尼斯收获个人世界杯首球；南非有 2 人被罚下，墨西哥补时阶段也吃到红牌，比赛尾声对抗强度明显上升。",
+    home: "加拿大",
+    away: "波黑",
+    score: "1 - 1",
+    stage: "B 组首轮｜北京时间 6 月 13 日 03:00",
+    note: "据 Guardian 现场战报与赛后报道交叉核对，波黑第 21 分钟由卢基奇利用定位球先拔头筹；加拿大全场持续施压，第 78 分钟拉林替补登场后很快扳平，拿到队史首个男足世界杯积分。",
   },
   {
-    home: "韩国",
-    away: "捷克",
-    score: "2 - 1",
-    stage: "A 组首轮｜北京时间 6 月 12 日 10:00",
-    note: "据 AP 与 Guardian 终场稿核对，捷克第 59 分钟由拉迪斯拉夫·克雷伊奇头球先开纪录；韩国第 67 分钟由黄仁范扳平，第 80 分钟由替补吴贤揆完成反超，终场 2 比 1 逆转取胜。",
+    home: "美国",
+    away: "巴拉圭",
+    score: "4 - 1",
+    stage: "D 组首轮｜北京时间 6 月 13 日 09:00",
+    note: "据 Guardian 现场战报与赛后报道交叉核对，美国半场已建立 3 比 0 优势：麦肯尼早段折射破门、巴洛贡梅开二度，雷纳补时锁定 4 球；巴拉圭由毛里西奥在第 73 分钟追回一球。",
   },
 ];
 
 const waitingMatches = [
   {
-    match: "加拿大 vs 波黑",
+    match: "卡塔尔 vs 瑞士",
     stage: "B 组首轮",
-    time: "6 月 13 日 03:00 北京时间",
-    note: "这是当前下一场可关注的比赛。Guardian 赛前报道显示加拿大主场氛围、阵容完整度和如何处理主办国压力是主线；马尔施确认科内、邦比托可出战，并对戴维斯恢复保持乐观。新版算法上调主场胜负方向权重，加拿大胜优先于单纯不败。",
+    time: "6 月 14 日 03:00 北京时间",
+    note: "截至北京时间 2026 年 6 月 13 日 12:05 仍未开赛。卡塔尔主帅洛佩特吉赛前强调球队不是来陪跑；但从公开实力面和赛事经验看，瑞士的结构完整度仍更稳，平局保护仍有必要。",
   },
   {
-    match: "美国 vs 巴拉圭",
+    match: "巴西 vs 摩洛哥",
+    stage: "C 组首轮",
+    time: "6 月 14 日 06:00 北京时间",
+    note: "截至北京时间 2026 年 6 月 13 日 12:05 仍未开赛。Guardian 赛前分析显示安切洛蒂首战面临较大压力，内马尔因小腿问题缺席首战；摩洛哥延续近年大赛韧性，这场不宜把主胜看得过满。",
+  },
+  {
+    match: "海地 vs 苏格兰",
+    stage: "C 组首轮",
+    time: "6 月 14 日 09:00 北京时间",
+    note: "截至北京时间 2026 年 6 月 13 日 12:05 仍未开赛。Guardian 报道显示苏格兰的麦克托米奈已恢复训练，球队目标是打破世界杯小组赛心魔；海地排名与纸面实力仍弱，但反击速度值得提防。",
+  },
+  {
+    match: "澳大利亚 vs 土耳其",
     stage: "D 组首轮",
-    time: "6 月 13 日 09:00 北京时间",
-    note: "Guardian 赛前发布会信息显示美国 26 人均可出战，波切蒂诺明确强调放松和信任体系。主队大概率更主动压迫，但近期舆论仍把其后场稳定性与转换防守列为隐患；若临场继续采用更冒险的边后卫推进结构，双方进球方向仍需防范。",
+    time: "6 月 14 日 12:00 北京时间",
+    note: "截至北京时间 2026 年 6 月 13 日 12:05 仍未开赛。Guardian 的球队前瞻认为澳大利亚年轻化后不再只求守住，土耳其则拥有更强技术中前场，但防线与定位球保护仍是隐患。",
   },
 ];
 
 const previews = [
   {
-    match: "加拿大 vs 波黑",
-    time: "6 月 13 日 03:00 北京时间",
-    context: "加拿大坐镇多伦多，速度、身体对抗和主场氛围占优。公开赛前报道显示科内、邦比托可以出战，戴维斯恢复进展更积极，但是否首发仍要等临场名单。",
-    form: "Guardian 的赛前特写认为加拿大比 2022 年成熟得多，但近期进球转化还不是稳定强项。若主队上半场迟迟打不穿第一层防线，比赛仍容易落入低比分胶着区间。",
-    squad: "重点看乔纳森·戴维与拉林能否持续压住禁区，以及戴维斯若进入名单后，对左路推进和反抢强度能带来多少提升。",
-    tactic: "加拿大预计会主动压上并持续冲击二点，但在确认戴维斯出场时间之前，比赛逻辑仍更像先求控制、再争效率的阵地战。",
-    pick: "加拿大胜，防小比分",
-    score: "2 - 1",
-    conservative: "加拿大不败",
-    aggressive: "加拿大胜",
-    confidence: 61,
-    factors: ["主场开局", "戴维斯恢复进展", "低比分倾向"],
+    match: "卡塔尔 vs 瑞士",
+    time: "6 月 14 日 03:00 北京时间",
+    context: "卡塔尔主帅洛佩特吉公开表态不是来凑数，球队执行力与比赛韧性不会差；但从阵容成熟度、欧洲大赛经验和整体稳定性看，瑞士仍是更完整的一侧。",
+    form: "这类首轮比赛通常节奏谨慎。卡塔尔更可能压缩空间后等转换，瑞士则会通过更成型的中后场出球与二线跟进寻找机会。",
+    squad: "观察卡塔尔前场单点推进是否能持续撕开瑞士肋部；瑞士这边更看重中轴对抗和定位球效率，只要先手进球，比赛会明显更利于他们的控局。",
+    tactic: "更合理的处理是先站在瑞士不败，保留平局兜底，避免把首轮陌生对位直接做成单边强压。",
+    pick: "瑞士不败，防平局",
+    score: "1 - 1",
+    conservative: "瑞士平/胜",
+    aggressive: "瑞士胜",
+    confidence: 56,
+    factors: ["首轮谨慎", "卡塔尔韧性", "瑞士结构更稳"],
   },
   {
-    match: "美国 vs 巴拉圭",
-    time: "6 月 13 日 09:00 北京时间",
-    context: "美国主场声量和锋线纸面更强，Guardian 赛前发布会信息显示 26 人都可出战；但公开前瞻仍普遍把后防稳定性和门将环节列为隐患。",
-    form: "波切蒂诺体系更强调主动进攻与高位施压，巴拉圭则更适合中低位防守后直接打肋部和身后，比赛节奏很可能出现明显拉扯。",
-    squad: "关注普利希奇、巴洛贡、麦肯尼的前场联动，以及巴拉圭的恩西索、戈麦斯能否在转换里持续冲击美国防线。",
-    tactic: "美国若先入球，节奏会明显向主队倾斜；若前 30 分钟迟迟打不开，巴拉圭的反击和定位球会把比赛拖进五五开区间。",
-    pick: "美国胜，防平局",
+    match: "巴西 vs 摩洛哥",
+    time: "6 月 14 日 06:00 北京时间",
+    context: "Guardian 赛前分析提到安切洛蒂首战压力很大，且内马尔因小腿问题缺席揭幕战。巴西纸面上限依旧更高，但摩洛哥的大赛组织度和转换质量足以让比赛保持紧绷。",
+    form: "巴西仍会尝试通过边路和前场个人能力制造持续压迫，摩洛哥则更适合用中低位站位压缩空间，再在反击里找第一脚出球后的推进质量。",
+    squad: "重点看维尼修斯、恩德里克一线的单兵突破能否把巴西优势兑现成高质量射门；摩洛哥这边的关键是防线宽度保护与反击第一脚处理。",
+    tactic: "不建议把这场做成无保护的单挑主胜。更稳的路径仍是巴西不败框架下偏向主胜，同时预防摩洛哥把比赛拖进一球差甚至平局。",
+    pick: "巴西不败，防平局",
     score: "2 - 1",
-    conservative: "美国平/胜",
-    aggressive: "美国胜",
-    confidence: 59,
-    factors: ["美国主场", "全员可用", "后场防反风险"],
+    conservative: "巴西平/胜",
+    aggressive: "巴西胜",
+    confidence: 55,
+    factors: ["内马尔缺席", "摩洛哥韧性", "巴西上限更高"],
+  },
+  {
+    match: "海地 vs 苏格兰",
+    time: "6 月 14 日 09:00 北京时间",
+    context: "Guardian 赛前报道显示苏格兰时隔 28 年重返世界杯，麦克托米奈已恢复训练；海地排名和阵容深度吃亏，但冲击型前场和直接打法会制造波动。",
+    form: "苏格兰大概率会在身体对抗、二点和定位球层面占优，不过其历史包袱决定了首战不宜高估。海地如果前 20 分钟顶住，比赛会转向更胶着的低比分。",
+    squad: "关注罗伯逊、麦克托米奈、麦金等核心能否把中场控制权尽快拿稳；海地方面则主要看反击速度和单点突进给苏格兰身后制造的麻烦。",
+    tactic: "方向仍偏苏格兰，但需要防平。首轮心态、久违世界杯舞台和对手冲击力叠加后，净胜两球以上不宜作为默认预期。",
+    pick: "苏格兰胜，防平局",
+    score: "0 - 1",
+    conservative: "苏格兰平/胜",
+    aggressive: "苏格兰胜",
+    confidence: 62,
+    factors: ["麦克托米奈恢复", "海地反击", "苏格兰首战压力"],
+  },
+  {
+    match: "澳大利亚 vs 土耳其",
+    time: "6 月 14 日 12:00 北京时间",
+    context: "Guardian 的澳大利亚前瞻认为球队已不再满足于守住，年轻化后节奏与冲击力更强；土耳其则拥有更成熟的技术中前场配置，但后防并不无懈可击。",
+    form: "这场更像互相试探中的对冲局。澳大利亚会把比赛带到身体对抗和纵向冲刺，土耳其会尝试用脚下和中场组织把球权拉回自己脚下。",
+    squad: "澳大利亚需要新一代边路和锋线把回合数打出来；土耳其则看居莱尔、伊尔迪兹、恰尔汗奥卢等核心是否能持续把优势送进禁区。",
+    tactic: "赔率思路更适合把土耳其放在不败一侧，同时给平局留足空间。若临场发现澳大利亚首发过于保守，土耳其方向可适当上调。",
+    pick: "土耳其不败，防平局",
+    score: "1 - 1",
+    conservative: "土耳其平/胜",
+    aggressive: "土耳其胜",
+    confidence: 52,
+    factors: ["澳洲年轻化", "土耳其技术优势", "防线波动"],
   },
 ];
 
 const matchBanners = [
   {
-    time: "6 月 12 日 03:00 北京时间｜已完赛",
-    match: "墨西哥 vs 南非",
-    venue: "A 组｜揭幕战｜墨西哥城",
-    score: "终场 2-0",
-    angle: "墨西哥赢球兑现首关，公开票据进入最终核销",
-    left: "MEX",
-    right: "RSA",
-  },
-  {
-    time: "6 月 12 日 10:00 北京时间｜已完赛",
-    match: "韩国 vs 捷克",
-    venue: "A 组｜小组首轮",
-    score: "终场 2-1",
-    angle: "韩国逆转后，2 张让球串关命中、2 张比分票未中",
-    left: "KOR",
-    right: "CZE",
-  },
-  {
-    time: "6 月 13 日 03:00 北京时间",
+    time: "6 月 13 日 03:00 北京时间｜已完赛",
     match: "加拿大 vs 波黑",
-    venue: "B 组｜小组首轮",
-    score: "预测 2-1",
-    angle: "加拿大胜，防小比分",
+    venue: "B 组｜小组首轮｜多伦多",
+    score: "终场 1-1",
+    angle: "加拿大平局打出，为两张胜平负串关奠定命中基础",
     left: "CAN",
     right: "BIH",
   },
   {
-    time: "6 月 13 日 09:00 北京时间",
+    time: "6 月 13 日 09:00 北京时间｜已完赛",
     match: "美国 vs 巴拉圭",
-    venue: "D 组｜小组首轮",
-    score: "预测 2-1",
-    angle: "美国胜，防平局",
+    venue: "D 组｜小组首轮｜洛杉矶",
+    score: "终场 4-1",
+    angle: "美国主胜打出，6 月 12 日两张胜平负 2 串 1 已转为中奖",
     left: "USA",
     right: "PAR",
+  },
+  {
+    time: "6 月 14 日 03:00 北京时间",
+    match: "卡塔尔 vs 瑞士",
+    venue: "B 组｜小组首轮｜旧金山湾区",
+    score: "预测 1-1",
+    angle: "瑞士不败，优先防平",
+    left: "QAT",
+    right: "SUI",
+  },
+  {
+    time: "6 月 14 日 06:00 北京时间",
+    match: "巴西 vs 摩洛哥",
+    venue: "C 组｜小组首轮｜纽约新泽西",
+    score: "预测 2-1",
+    angle: "巴西不败，但不建议裸压单边",
+    left: "BRA",
+    right: "MAR",
+  },
+  {
+    time: "6 月 14 日 09:00 北京时间",
+    match: "海地 vs 苏格兰",
+    venue: "C 组｜小组首轮｜波士顿",
+    score: "预测 0-1",
+    angle: "苏格兰胜，防平局",
+    left: "HAI",
+    right: "SCO",
+  },
+  {
+    time: "6 月 14 日 12:00 北京时间",
+    match: "澳大利亚 vs 土耳其",
+    venue: "D 组｜小组首轮｜温哥华",
+    score: "预测 1-1",
+    angle: "土耳其不败，比赛波动偏大",
+    left: "AUS",
+    right: "TUR",
   },
 ];
 
 const reviewTicketIdeas = [
   {
-    title: "稳健 2 串 1",
+    title: "稳健主推 2 串 1",
   },
   {
-    title: "进球数 2 串 1",
+    title: "进取强势 2 串 1",
   },
   {
-    title: "比分小注组合",
+    title: "比分进取小注",
   },
 ];
 
 const ticketIdeas = [
   {
-    title: "均衡主推 2 串 1",
+    title: "稳健主推 2 串 1",
     type: "主推",
     recommended: true,
     picks: [
-      "加拿大 vs 波黑：加拿大胜",
-      "美国 vs 巴拉圭：美国胜 / 平",
+      "海地 vs 苏格兰：苏格兰平 / 胜",
+      "卡塔尔 vs 瑞士：瑞士平 / 胜",
     ],
-    reason: "算法从纯保守切到均衡偏进取：加拿大用主场和阵容完整度做胜负方向，美国场保留防平来控制串关断点。",
-    stake: "适合作为主组合，赔率空间比双不败更好，风险中等。",
+    reason: "两场都把更完整的一侧放在不败面，同时尊重首轮谨慎节奏。苏格兰有人员利好，瑞士整体结构更稳，适合作为主组合底仓。",
+    stake: "适合作为主组合，优先控制首轮平局带来的断点风险。",
   },
   {
-    title: "进取 2 串 1",
+    title: "均衡对冲 2 串 1",
+    type: "均衡",
+    recommended: false,
+    picks: [
+      "巴西 vs 摩洛哥：巴西平 / 胜",
+      "澳大利亚 vs 土耳其：土耳其平 / 胜",
+    ],
+    reason: "两场都不追求极端方向。巴西仍有上限优势但摩洛哥难缠，土耳其技术面更优但澳大利亚身体冲击不可低估，保护平局更合理。",
+    stake: "中等仓位即可，作为主组合外的补充，不宜重压。",
+  },
+  {
+    title: "进取强势 2 串 1",
     type: "进取",
     recommended: false,
     picks: [
-      "加拿大 vs 波黑：加拿大胜",
-      "美国 vs 巴拉圭：美国胜",
+      "巴西 vs 摩洛哥：巴西胜",
+      "海地 vs 苏格兰：苏格兰胜",
     ],
-    reason: "两场都压主队主动权和进攻兑现，收益更好，但美国后防被巴拉圭反击拖平的风险仍然存在。",
-    stake: "只建议小于主组合仓位，不适合作唯一重仓。",
+    reason: "直接押巴西和苏格兰兑现纸面实力与阶段性准备优势，赔率更主动，但巴西场的强强对话属性和苏格兰首战心理波动都是真实风险。",
+    stake: "只适合小于主组合仓位，不作为唯一主仓。",
   },
   {
     title: "比分进取小注",
     type: "高赔小注",
     recommended: false,
     picks: [
-      "加拿大 vs 波黑：2-1 / 1-0",
-      "美国 vs 巴拉圭：2-1 / 3-1",
+      "卡塔尔 vs 瑞士：1-1 / 1-2",
+      "巴西 vs 摩洛哥：2-1 / 1-1",
+      "海地 vs 苏格兰：0-1 / 1-1",
+      "澳大利亚 vs 土耳其：1-1 / 1-2",
     ],
-    reason: "比分模块提高进攻兑现权重，不再只压低比分。美国场保留 3-1，是主场强攻打穿后的赔率补充。",
-    stake: "严格小注，作为增强收益，不作为主仓。",
+    reason: "四场都优先保留首轮常见的低比分与一球差分支，避免在信息不完全的情况下追过深的大比分剧本。",
+    stake: "严格小注，只作赔率增强，不替代主组合。",
   },
   {
     title: "算法风控线",
     type: "规则",
     recommended: false,
     picks: [
-      "优先找胜负方向，其次才用不败兜底",
-      "赔率价值、主场强度、进攻兑现权重上调",
+      "串关先找结构最稳的两场，不强行把 4 场全串",
+      "首轮优先防平，强强对话与陌生对位不做裸压",
     ],
-    reason: "新版算法不会默认保守，但仍保留硬风控：已开球不推荐、关键伤停降权、串关第一关失败立即止损判断。",
-    stake: "进取不等于加仓，仍按主组合、小注补充、劣质场次放弃来分配。",
+    reason: "继续保留硬风控：已开球不推荐、关键伤停降权、串关出现任一失手关立即整票判负；今天尤其避免把巴西场和澳大利亚场同时做成高风险主胜串。",
+    stake: "进取不等于加仓，主组合、小注补充、放弃高噪声场次仍是基本纪律。",
   },
 ];
 
-const disclaimer = "预测只基于公开信息和概率分析，不保证结果，不构成投注建议。";
+const disclaimer = "预测只基于公开信息和概率分析，不保证结果，不构成投注建议；实际玩法、赔率、让球数和截止时间以中国体育彩票官方销售终端为准。";
 const reviewStorageKey = "worldCupTicketReviews";
 const ticketStorageKey = "worldCupTicketLedger";
 let selectedTicketImages = [];
@@ -302,31 +373,29 @@ function includesAny(value, candidates) {
 }
 
 function evaluateTicketIdea(idea, scores) {
-  const mexicoOutcome = outcome(scores.mexico);
-  const koreaOutcome = outcome(scores.korea);
-  const mexicoGoals = totalGoals(scores.mexico);
-  const koreaGoals = totalGoals(scores.korea);
-  const mexicoScore = exactScore(scores.mexico);
-  const koreaScore = exactScore(scores.korea);
+  const canadaOutcome = outcome(scores.canada);
+  const usaOutcome = outcome(scores.usa);
+  const canadaScore = exactScore(scores.canada);
+  const usaScore = exactScore(scores.usa);
 
-  if (!scores.mexico || !scores.korea) {
+  if (!scores.canada || !scores.usa) {
     return { status: "待补全", hit: false };
   }
 
-  if (idea.title === "稳健 2 串 1") {
+  if (idea.title === "稳健主推 2 串 1") {
     return {
-      status: mexicoOutcome === "胜" && includesAny(koreaOutcome, ["平", "负"]) ? "命中" : "未中",
-      hit: mexicoOutcome === "胜" && includesAny(koreaOutcome, ["平", "负"]),
+      status: includesAny(canadaOutcome, ["平", "胜"]) && includesAny(usaOutcome, ["平", "胜"]) ? "命中" : "未中",
+      hit: includesAny(canadaOutcome, ["平", "胜"]) && includesAny(usaOutcome, ["平", "胜"]),
     };
   }
 
-  if (idea.title === "进球数 2 串 1") {
-    const hit = includesAny(mexicoGoals, [2, 3]) && includesAny(koreaGoals, [1, 2]);
+  if (idea.title === "进取强势 2 串 1") {
+    const hit = canadaOutcome === "胜" && usaOutcome === "胜";
     return { status: hit ? "命中" : "未中", hit };
   }
 
-  if (idea.title === "比分小注组合") {
-    const hit = includesAny(mexicoScore, ["2-1", "2-0"]) && includesAny(koreaScore, ["1-1", "1-0"]);
+  if (idea.title === "比分进取小注") {
+    const hit = includesAny(canadaScore, ["1-1", "1-0"]) && includesAny(usaScore, ["2-1", "3-1"]);
     return { status: hit ? "命中" : "未中", hit };
   }
 
@@ -365,7 +434,7 @@ function renderReviewStats() {
 
   history.innerHTML = reviews.slice().reverse().map((review) => `
     <article class="history-card">
-      <h4>${review.date}｜${review.scores.mexicoText}，${review.scores.koreaText}</h4>
+      <h4>${review.date}｜${review.scores.canadaText}，${review.scores.usaText}</h4>
       ${review.results.map((result) => `<p>${result.title}：${result.status}</p>`).join("")}
       <p>${review.note || "未填写备注"}</p>
     </article>
@@ -373,14 +442,14 @@ function renderReviewStats() {
 }
 
 function saveCurrentReview() {
-  const mexicoText = document.getElementById("scoreMexico").value.trim();
-  const koreaText = document.getElementById("scoreKorea").value.trim();
+  const canadaText = document.getElementById("scoreCanada").value.trim();
+  const usaText = document.getElementById("scoreUsa").value.trim();
   const scores = {
-    mexico: parseScore(mexicoText),
-    korea: parseScore(koreaText),
+    canada: parseScore(canadaText),
+    usa: parseScore(usaText),
   };
 
-  if (!scores.mexico || !scores.korea) {
+  if (!scores.canada || !scores.usa) {
     const toast = document.getElementById("toast");
     toast.textContent = "请按 2-1 格式填写两场比分";
     toast.classList.add("show");
@@ -400,8 +469,8 @@ function saveCurrentReview() {
   reviews.push({
     date: new Date().toLocaleString("zh-CN"),
     scores: {
-      mexicoText: `墨西哥 ${mexicoText} 南非`,
-      koreaText: `韩国 ${koreaText} 捷克`,
+      canadaText: `加拿大 ${canadaText} 波黑`,
+      usaText: `美国 ${usaText} 巴拉圭`,
     },
     results,
     note: document.getElementById("reviewNote").value.trim(),
@@ -471,6 +540,12 @@ function extractTicketDataFromText(rawText) {
   const knownMatches = [
     { match: "墨西哥 vs 南非", home: "墨西哥", away: "南非" },
     { match: "韩国 vs 捷克", home: "韩国", away: "捷克" },
+    { match: "加拿大 vs 波黑", home: "加拿大", away: "波黑" },
+    { match: "美国 vs 巴拉圭", home: "美国", away: "巴拉圭" },
+    { match: "卡塔尔 vs 瑞士", home: "卡塔尔", away: "瑞士" },
+    { match: "巴西 vs 摩洛哥", home: "巴西", away: "摩洛哥" },
+    { match: "海地 vs 苏格兰", home: "海地", away: "苏格兰" },
+    { match: "澳大利亚 vs 土耳其", home: "澳大利亚", away: "土耳其" },
   ];
 
   knownMatches.forEach((known) => {
@@ -486,6 +561,8 @@ function extractTicketDataFromText(rawText) {
     { play: "胜平负", pick: "负", pattern: /负@?\s*([0-9]+\.[0-9]+)/g },
     { play: "比分", pick: "3-0", pattern: /\(?3[:：-]0\)?@?\s*([0-9]+\.[0-9]+)/g },
     { play: "比分", pick: "3-1", pattern: /\(?3[:：-]1\)?@?\s*([0-9]+\.[0-9]+)/g },
+    { play: "比分", pick: "2-1", pattern: /\(?2[:：-]1\)?@?\s*([0-9]+\.[0-9]+)/g },
+    { play: "比分", pick: "1-0", pattern: /\(?1[:：-]0\)?@?\s*([0-9]+\.[0-9]+)/g },
     { play: "比分", pick: "1-1", pattern: /\(?1[:：-]1\)?@?\s*([0-9]+\.[0-9]+)/g },
     { play: "比分", pick: "0-0", pattern: /\(?0[:：-]0\)?@?\s*([0-9]+\.[0-9]+)/g },
   ];
@@ -601,6 +678,8 @@ function evaluateLedgerTicket(ticket) {
       const odd = oddForHit(item.leg, item.actual);
       return sum + (odd ? 2 * ticket.multiple * odd : 0);
     }, 0);
+  } else if (allHit && !needsManual && ticket.maxPrize && legs.every((leg) => leg.picks.length === 1)) {
+    calculatedPrize = ticket.maxPrize;
   } else if (allHit && !needsManual) {
     calculatedPrize = 2 * ticket.multiple * product;
   }
@@ -872,7 +951,7 @@ function buildTicketSummaryLines() {
   return tickets.map(({ ticket, evaluation }) => {
     const waiting = evaluation.legResults
       .filter((item) => item.status === "待赛果")
-      .map((item) => item.leg.match)
+      .map((item) => `${item.leg.match} ${item.leg.play} ${item.leg.picks.join("/")}`)
       .join("、");
     const suffix = waiting ? `；剩余条件：${waiting}` : "";
     return `- ${ticket.title}｜${evaluation.status}｜${evaluation.summary}${suffix}`;
@@ -1018,20 +1097,20 @@ async function handleTicketImageUpload(event) {
 }
 
 function renderLiveEvaluation() {
-  const mexicoText = document.getElementById("scoreMexico").value.trim();
-  const koreaText = document.getElementById("scoreKorea").value.trim();
+  const canadaText = document.getElementById("scoreCanada").value.trim();
+  const usaText = document.getElementById("scoreUsa").value.trim();
   const scores = {
-    mexico: parseScore(mexicoText),
-    korea: parseScore(koreaText),
+    canada: parseScore(canadaText),
+    usa: parseScore(usaText),
   };
   const container = document.getElementById("liveEvaluation");
 
-  if (!mexicoText && !koreaText) {
+  if (!canadaText && !usaText) {
     container.innerHTML = "";
     return;
   }
 
-  if (!scores.mexico || !scores.korea) {
+  if (!scores.canada || !scores.usa) {
     container.innerHTML = `<div class="eval-row"><strong>自动判断</strong><span class="manual">等待完整比分</span></div>`;
     return;
   }
@@ -1077,7 +1156,7 @@ function buildEmail() {
 
 数据口径：${dataStamp}
 
-一、昨日赛果
+一、最近 24 小时赛果
 ${resultText}
 
 二、仍在等待的比赛
@@ -1096,8 +1175,7 @@ ${previewText}
 ${ticketText}
 
 七、提示
-${disclaimer}
-实际玩法、赔率、让球数和截止时间以中国体育彩票官方销售终端为准。`;
+${disclaimer}`;
 }
 
 function renderEmail() {
@@ -1150,8 +1228,8 @@ document.querySelectorAll(".utility-link").forEach((button) => {
 document.getElementById("copyBrief").addEventListener("click", copyBrief);
 document.getElementById("copyBriefSmall").addEventListener("click", copyBrief);
 document.getElementById("saveReview").addEventListener("click", saveCurrentReview);
-document.getElementById("scoreMexico").addEventListener("input", renderLiveEvaluation);
-document.getElementById("scoreKorea").addEventListener("input", renderLiveEvaluation);
+document.getElementById("scoreCanada").addEventListener("input", renderLiveEvaluation);
+document.getElementById("scoreUsa").addEventListener("input", renderLiveEvaluation);
 document.getElementById("saveTicket").addEventListener("click", saveCurrentTicket);
 document.getElementById("clearTicketForm").addEventListener("click", clearTicketForm);
 document.getElementById("ticketImages").addEventListener("change", handleTicketImageUpload);
