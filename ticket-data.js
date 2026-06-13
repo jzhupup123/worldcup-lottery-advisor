@@ -123,7 +123,10 @@ window.ticketDataSeed = [
       "加拿大 vs 波黑｜比分｜1-0/2-1｜1-0@5.400/2-1@5.650",
       "美国 vs 巴拉圭｜比分｜2-1/3-1｜2-1@5.500/3-1@13.500"
     ],
-    results: [],
+    results: [
+      "加拿大 vs 波黑｜1-1",
+      "美国 vs 巴拉圭｜4-1"
+    ],
     games: [
       { match: "加拿大 vs 波黑", home: "加拿大", away: "波黑" },
       { match: "美国 vs 巴拉圭", home: "美国", away: "巴拉圭" }
@@ -149,7 +152,10 @@ window.ticketDataSeed = [
       "加拿大 vs 波黑｜比分｜1-0/2-1｜1-0@5.400/2-1@5.650",
       "美国 vs 巴拉圭｜比分｜2-1/3-1｜2-1@5.500/3-1@13.500"
     ],
-    results: [],
+    results: [
+      "加拿大 vs 波黑｜1-1",
+      "美国 vs 巴拉圭｜4-1"
+    ],
     games: [
       { match: "加拿大 vs 波黑", home: "加拿大", away: "波黑" },
       { match: "美国 vs 巴拉圭", home: "美国", away: "巴拉圭" }
@@ -170,12 +176,15 @@ window.ticketDataSeed = [
     passType: "2x1",
     multiple: 50,
     stake: 100,
-    maxPrize: 584.5,
+    maxPrize: 582.9,
     legs: [
       "加拿大 vs 波黑｜胜平负｜平｜3.350",
       "美国 vs 巴拉圭｜胜平负｜胜｜1.740"
     ],
-    results: [],
+    results: [
+      "加拿大 vs 波黑｜1-1",
+      "美国 vs 巴拉圭｜4-1"
+    ],
     games: [
       { match: "加拿大 vs 波黑", home: "加拿大", away: "波黑" },
       { match: "美国 vs 巴拉圭", home: "美国", away: "巴拉圭" }
@@ -184,7 +193,7 @@ window.ticketDataSeed = [
       { play: "胜平负", pick: "平", odd: 3.350 },
       { play: "胜平负", pick: "胜", odd: 1.740 }
     ],
-    rawText: "票面识别：过关方式2x1，50倍，合计100元；加拿大vs波黑 胜平负 平@3.350；美国vs巴拉圭 胜平负 胜@1.740；最高可能固定奖金584.50元。",
+    rawText: "票面识别：过关方式2x1，50倍，合计100元；加拿大vs波黑 胜平负 平@3.350；美国vs巴拉圭 胜平负 胜@1.740；最高可能固定奖金582.90元。",
     recognitionStatus: "人工识别已录入"
   },
   {
@@ -194,12 +203,15 @@ window.ticketDataSeed = [
     passType: "2x1",
     multiple: 50,
     stake: 100,
-    maxPrize: 584.5,
+    maxPrize: 584.64,
     legs: [
       "加拿大 vs 波黑｜胜平负｜平｜3.360",
       "美国 vs 巴拉圭｜胜平负｜胜｜1.740"
     ],
-    results: [],
+    results: [
+      "加拿大 vs 波黑｜1-1",
+      "美国 vs 巴拉圭｜4-1"
+    ],
     games: [
       { match: "加拿大 vs 波黑", home: "加拿大", away: "波黑" },
       { match: "美国 vs 巴拉圭", home: "美国", away: "巴拉圭" }
@@ -208,7 +220,7 @@ window.ticketDataSeed = [
       { play: "胜平负", pick: "平", odd: 3.360 },
       { play: "胜平负", pick: "胜", odd: 1.740 }
     ],
-    rawText: "票面识别：过关方式2x1，50倍，合计100元；加拿大vs波黑 胜平负 平@3.360；美国vs巴拉圭 胜平负 胜@1.740；最高可能固定奖金584.50元。",
+    rawText: "票面识别：过关方式2x1，50倍，合计100元；加拿大vs波黑 胜平负 平@3.360；美国vs巴拉圭 胜平负 胜@1.740；最高可能固定奖金584.64元。",
     recognitionStatus: "人工识别已录入"
   }
 ];
