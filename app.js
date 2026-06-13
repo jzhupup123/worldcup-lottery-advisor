@@ -1175,7 +1175,8 @@ ${previewText}
 ${ticketText}
 
 七、提示
-${disclaimer}`;
+${disclaimer}
+实际玩法、赔率、让球数和截止时间以中国体育彩票官方销售终端为准。`;
 }
 
 function renderEmail() {
@@ -1225,14 +1226,19 @@ document.querySelectorAll(".utility-link").forEach((button) => {
   });
 });
 
-document.getElementById("copyBrief").addEventListener("click", copyBrief);
-document.getElementById("copyBriefSmall").addEventListener("click", copyBrief);
-document.getElementById("saveReview").addEventListener("click", saveCurrentReview);
-document.getElementById("scoreCanada").addEventListener("input", renderLiveEvaluation);
-document.getElementById("scoreUsa").addEventListener("input", renderLiveEvaluation);
-document.getElementById("saveTicket").addEventListener("click", saveCurrentTicket);
-document.getElementById("clearTicketForm").addEventListener("click", clearTicketForm);
-document.getElementById("ticketImages").addEventListener("change", handleTicketImageUpload);
+function bindIfPresent(id, eventName, handler) {
+  const element = document.getElementById(id);
+  if (element) element.addEventListener(eventName, handler);
+}
+
+bindIfPresent("copyBrief", "click", copyBrief);
+bindIfPresent("copyBriefSmall", "click", copyBrief);
+bindIfPresent("saveReview", "click", saveCurrentReview);
+bindIfPresent("scoreCanada", "input", renderLiveEvaluation);
+bindIfPresent("scoreUsa", "input", renderLiveEvaluation);
+bindIfPresent("saveTicket", "click", saveCurrentTicket);
+bindIfPresent("clearTicketForm", "click", clearTicketForm);
+bindIfPresent("ticketImages", "change", handleTicketImageUpload);
 
 renderResults();
 renderMatchBanners();
