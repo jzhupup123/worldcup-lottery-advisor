@@ -236,7 +236,11 @@ window.ticketDataSeed = [
       "巴西 vs 摩洛哥｜胜平负｜平｜3.550",
       "海地 vs 苏格兰｜让球胜平负(+1)｜让负｜2.150"
     ],
-    results: [],
+    results: [
+      "卡塔尔 vs 瑞士｜1-1",
+      "巴西 vs 摩洛哥｜1-1",
+      "海地 vs 苏格兰｜0-1"
+    ],
     games: [
       { match: "卡塔尔 vs 瑞士", home: "卡塔尔", away: "瑞士" },
       { match: "巴西 vs 摩洛哥", home: "巴西", away: "摩洛哥" },
@@ -263,7 +267,11 @@ window.ticketDataSeed = [
       "巴西 vs 摩洛哥｜胜平负｜平｜3.550",
       "海地 vs 苏格兰｜让球胜平负(+1)｜让负｜2.150"
     ],
-    results: [],
+    results: [
+      "卡塔尔 vs 瑞士｜1-1",
+      "巴西 vs 摩洛哥｜1-1",
+      "海地 vs 苏格兰｜0-1"
+    ],
     games: [
       { match: "卡塔尔 vs 瑞士", home: "卡塔尔", away: "瑞士" },
       { match: "巴西 vs 摩洛哥", home: "巴西", away: "摩洛哥" },
@@ -290,7 +298,11 @@ window.ticketDataSeed = [
       "巴西 vs 摩洛哥｜让球胜平负(-1)｜让胜｜2.700",
       "海地 vs 苏格兰｜让球胜平负(+1)｜让负｜2.150"
     ],
-    results: [],
+    results: [
+      "卡塔尔 vs 瑞士｜1-1",
+      "巴西 vs 摩洛哥｜1-1",
+      "海地 vs 苏格兰｜0-1"
+    ],
     games: [
       { match: "卡塔尔 vs 瑞士", home: "卡塔尔", away: "瑞士" },
       { match: "巴西 vs 摩洛哥", home: "巴西", away: "摩洛哥" },
@@ -317,7 +329,11 @@ window.ticketDataSeed = [
       "巴西 vs 摩洛哥｜比分｜2-1/2-2｜2-1@4.800/2-2@15.000",
       "海地 vs 苏格兰｜比分｜1-1/1-2｜1-1@7.500/1-2@7.000"
     ],
-    results: [],
+    results: [
+      "卡塔尔 vs 瑞士｜1-1",
+      "巴西 vs 摩洛哥｜1-1",
+      "海地 vs 苏格兰｜0-1"
+    ],
     games: [
       { match: "卡塔尔 vs 瑞士", home: "卡塔尔", away: "瑞士" },
       { match: "巴西 vs 摩洛哥", home: "巴西", away: "摩洛哥" },
@@ -347,7 +363,11 @@ window.ticketDataSeed = [
       "巴西 vs 摩洛哥｜比分｜2-1/2-2｜2-1@4.800/2-2@15.000",
       "海地 vs 苏格兰｜比分｜1-1/1-2｜1-1@7.500/1-2@7.000"
     ],
-    results: [],
+    results: [
+      "卡塔尔 vs 瑞士｜1-1",
+      "巴西 vs 摩洛哥｜1-1",
+      "海地 vs 苏格兰｜0-1"
+    ],
     games: [
       { match: "卡塔尔 vs 瑞士", home: "卡塔尔", away: "瑞士" },
       { match: "巴西 vs 摩洛哥", home: "巴西", away: "摩洛哥" },
