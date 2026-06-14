@@ -4,154 +4,82 @@ const briefDate = new Intl.DateTimeFormat("zh-CN", {
   weekday: "long",
 }).format(new Date());
 
-const dataStamp = "截至北京时间 2026-06-13 12:05 查询";
+const dataStamp = "截至北京时间 2026-06-14 09:12 查询";
 
 const yesterdayResults = [
   {
-    home: "加拿大",
-    away: "波黑",
+    home: "卡塔尔",
+    away: "瑞士",
     score: "1 - 1",
-    stage: "B 组首轮｜北京时间 6 月 13 日 03:00",
-    note: "据 Guardian 现场战报与赛后报道交叉核对，波黑第 21 分钟由卢基奇利用定位球先拔头筹；加拿大全场持续施压，第 78 分钟拉林替补登场后很快扳平，拿到队史首个男足世界杯积分。",
+    stage: "B 组首轮｜北京时间 6 月 14 日 03:00",
+    note: "据 Guardian 现场页与赛后稿核对，恩博洛第 17 分钟点球破门，瑞士长时间占优却未能锁定胜局；卡塔尔补时第 95 分钟由胡希头球绝平，拿到队史首个男足世界杯积分。",
   },
   {
-    home: "美国",
-    away: "巴拉圭",
-    score: "4 - 1",
-    stage: "D 组首轮｜北京时间 6 月 13 日 09:00",
-    note: "据 Guardian 现场战报与赛后报道交叉核对，美国半场已建立 3 比 0 优势：麦肯尼早段折射破门、巴洛贡梅开二度，雷纳补时锁定 4 球；巴拉圭由毛里西奥在第 73 分钟追回一球。",
+    home: "巴西",
+    away: "摩洛哥",
+    score: "1 - 1",
+    stage: "C 组首轮｜北京时间 6 月 14 日 06:00",
+    note: "据 Guardian 赛后战报核对，赛巴里第 21 分钟为摩洛哥先开纪录，维尼修斯第 32 分钟扳平；下半场双方门将都有关键扑救，巴西控球更多但仍未能完成反超。",
   },
 ];
 
 const waitingMatches = [
   {
-    match: "卡塔尔 vs 瑞士",
-    stage: "B 组首轮",
-    time: "6 月 14 日 03:00 北京时间",
-    note: "截至北京时间 2026 年 6 月 13 日 12:05 仍未开赛。卡塔尔主帅洛佩特吉赛前强调球队不是来陪跑；但从公开实力面和赛事经验看，瑞士的结构完整度仍更稳，平局保护仍有必要。",
-  },
-  {
-    match: "巴西 vs 摩洛哥",
-    stage: "C 组首轮",
-    time: "6 月 14 日 06:00 北京时间",
-    note: "截至北京时间 2026 年 6 月 13 日 12:05 仍未开赛。Guardian 赛前分析显示安切洛蒂首战面临较大压力，内马尔因小腿问题缺席首战；摩洛哥延续近年大赛韧性，这场不宜把主胜看得过满。",
-  },
-  {
     match: "海地 vs 苏格兰",
     stage: "C 组首轮",
-    time: "6 月 14 日 09:00 北京时间",
-    note: "截至北京时间 2026 年 6 月 13 日 12:05 仍未开赛。Guardian 报道显示苏格兰的麦克托米奈已恢复训练，球队目标是打破世界杯小组赛心魔；海地排名与纸面实力仍弱，但反击速度值得提防。",
+    time: "6 月 14 日 09:00 北京时间｜09:12 查询时进行中",
+    note: "本场已于北京时间 6 月 14 日 09:00 开球，当前查询窗口内尚未完赛，公开推荐已自动停止，不再给出新出票方向，只保留赛后复盘与结果更新。",
   },
   {
     match: "澳大利亚 vs 土耳其",
     stage: "D 组首轮",
-    time: "6 月 14 日 12:00 北京时间",
-    note: "截至北京时间 2026 年 6 月 13 日 12:05 仍未开赛。Guardian 的球队前瞻认为澳大利亚年轻化后不再只求守住，土耳其则拥有更强技术中前场，但防线与定位球保护仍是隐患。",
+    time: "6 月 14 日 12:00 北京时间｜未开赛",
+    note: "截至北京时间 2026 年 6 月 14 日 09:12 仍未开赛。公开信息显示澳大利亚年轻化后节奏更直接，土耳其中前场技术与创造力更强，但防线并非没有波动，仍应把平局纳入主路径。",
   },
 ];
 
 const previews = [
   {
-    match: "卡塔尔 vs 瑞士",
-    time: "6 月 14 日 03:00 北京时间",
-    context: "卡塔尔主帅洛佩特吉公开表态不是来凑数，球队执行力与比赛韧性不会差；但从阵容成熟度、欧洲大赛经验和整体稳定性看，瑞士仍是更完整的一侧。",
-    form: "这类首轮比赛通常节奏谨慎。卡塔尔更可能压缩空间后等转换，瑞士则会通过更成型的中后场出球与二线跟进寻找机会。",
-    squad: "观察卡塔尔前场单点推进是否能持续撕开瑞士肋部；瑞士这边更看重中轴对抗和定位球效率，只要先手进球，比赛会明显更利于他们的控局。",
-    tactic: "更合理的处理是先站在瑞士不败，保留平局兜底，避免把首轮陌生对位直接做成单边强压。",
-    pick: "瑞士不败，防平局",
-    score: "1 - 1",
-    conservative: "瑞士平/胜",
-    aggressive: "瑞士胜",
-    confidence: 56,
-    factors: ["首轮谨慎", "卡塔尔韧性", "瑞士结构更稳"],
-  },
-  {
-    match: "巴西 vs 摩洛哥",
-    time: "6 月 14 日 06:00 北京时间",
-    context: "Guardian 赛前分析提到安切洛蒂首战压力很大，且内马尔因小腿问题缺席揭幕战。巴西纸面上限依旧更高，但摩洛哥的大赛组织度和转换质量足以让比赛保持紧绷。",
-    form: "巴西仍会尝试通过边路和前场个人能力制造持续压迫，摩洛哥则更适合用中低位站位压缩空间，再在反击里找第一脚出球后的推进质量。",
-    squad: "重点看维尼修斯、恩德里克一线的单兵突破能否把巴西优势兑现成高质量射门；摩洛哥这边的关键是防线宽度保护与反击第一脚处理。",
-    tactic: "不建议把这场做成无保护的单挑主胜。更稳的路径仍是巴西不败框架下偏向主胜，同时预防摩洛哥把比赛拖进一球差甚至平局。",
-    pick: "巴西不败，防平局",
-    score: "2 - 1",
-    conservative: "巴西平/胜",
-    aggressive: "巴西胜",
-    confidence: 55,
-    factors: ["内马尔缺席", "摩洛哥韧性", "巴西上限更高"],
-  },
-  {
-    match: "海地 vs 苏格兰",
-    time: "6 月 14 日 09:00 北京时间",
-    context: "Guardian 赛前报道显示苏格兰时隔 28 年重返世界杯，麦克托米奈已恢复训练；海地排名和阵容深度吃亏，但冲击型前场和直接打法会制造波动。",
-    form: "苏格兰大概率会在身体对抗、二点和定位球层面占优，不过其历史包袱决定了首战不宜高估。海地如果前 20 分钟顶住，比赛会转向更胶着的低比分。",
-    squad: "关注罗伯逊、麦克托米奈、麦金等核心能否把中场控制权尽快拿稳；海地方面则主要看反击速度和单点突进给苏格兰身后制造的麻烦。",
-    tactic: "方向仍偏苏格兰，但需要防平。首轮心态、久违世界杯舞台和对手冲击力叠加后，净胜两球以上不宜作为默认预期。",
-    pick: "苏格兰胜，防平局",
-    score: "0 - 1",
-    conservative: "苏格兰平/胜",
-    aggressive: "苏格兰胜",
-    confidence: 62,
-    factors: ["麦克托米奈恢复", "海地反击", "苏格兰首战压力"],
-  },
-  {
     match: "澳大利亚 vs 土耳其",
     time: "6 月 14 日 12:00 北京时间",
-    context: "Guardian 的澳大利亚前瞻认为球队已不再满足于守住，年轻化后节奏与冲击力更强；土耳其则拥有更成熟的技术中前场配置，但后防并不无懈可击。",
-    form: "这场更像互相试探中的对冲局。澳大利亚会把比赛带到身体对抗和纵向冲刺，土耳其会尝试用脚下和中场组织把球权拉回自己脚下。",
-    squad: "澳大利亚需要新一代边路和锋线把回合数打出来；土耳其则看居莱尔、伊尔迪兹、恰尔汗奥卢等核心是否能持续把优势送进禁区。",
-    tactic: "赔率思路更适合把土耳其放在不败一侧，同时给平局留足空间。若临场发现澳大利亚首发过于保守，土耳其方向可适当上调。",
+    context: "当前可售公开场次只剩这一场。澳大利亚年轻化后更愿意把比赛带到纵向冲刺和身体对抗，土耳其则拥有更成熟的技术中前场与更强的阵地战创造力。",
+    form: "这类首轮对冲局通常很难早早一边倒。澳大利亚会尝试把回合数和二点球打起来，土耳其则要靠中场传控和肋部配合把优势送进禁区。",
+    squad: "重点看居莱尔、伊尔迪兹、恰尔汗奥卢一线是否能持续把土耳其的脚下优势兑现出来；澳大利亚则更依赖边路推进、定位球和高强度回抢。",
+    tactic: "更稳的做法仍是站土耳其不败并防平，不建议在首轮直接裸压大热单边。若临场首发显示澳大利亚中后场过于保守，土耳其胜可小幅上调。",
     pick: "土耳其不败，防平局",
     score: "1 - 1",
     conservative: "土耳其平/胜",
     aggressive: "土耳其胜",
-    confidence: 52,
-    factors: ["澳洲年轻化", "土耳其技术优势", "防线波动"],
+    confidence: 53,
+    factors: ["首轮试探", "土耳其技术优势", "澳洲身体冲击"],
   },
 ];
 
 const matchBanners = [
   {
-    time: "6 月 13 日 03:00 北京时间｜已完赛",
-    match: "加拿大 vs 波黑",
-    venue: "B 组｜小组首轮｜多伦多",
-    score: "终场 1-1",
-    angle: "加拿大平局打出，为两张胜平负串关奠定命中基础",
-    left: "CAN",
-    right: "BIH",
-  },
-  {
-    time: "6 月 13 日 09:00 北京时间｜已完赛",
-    match: "美国 vs 巴拉圭",
-    venue: "D 组｜小组首轮｜洛杉矶",
-    score: "终场 4-1",
-    angle: "美国主胜打出，6 月 12 日两张胜平负 2 串 1 已转为中奖",
-    left: "USA",
-    right: "PAR",
-  },
-  {
-    time: "6 月 14 日 03:00 北京时间",
+    time: "6 月 14 日 03:00 北京时间｜已完赛",
     match: "卡塔尔 vs 瑞士",
     venue: "B 组｜小组首轮｜旧金山湾区",
-    score: "预测 1-1",
-    angle: "瑞士不败，优先防平",
+    score: "终场 1-1",
+    angle: "卡塔尔补时绝平，瑞士不败方向命中但主胜未出",
     left: "QAT",
     right: "SUI",
   },
   {
-    time: "6 月 14 日 06:00 北京时间",
+    time: "6 月 14 日 06:00 北京时间｜已完赛",
     match: "巴西 vs 摩洛哥",
     venue: "C 组｜小组首轮｜纽约新泽西",
-    score: "预测 2-1",
-    angle: "巴西不败，但不建议裸压单边",
+    score: "终场 1-1",
+    angle: "摩洛哥强硬逼平巴西，巴西单边主胜思路落空",
     left: "BRA",
     right: "MAR",
   },
   {
-    time: "6 月 14 日 09:00 北京时间",
+    time: "6 月 14 日 09:00 北京时间｜进行中",
     match: "海地 vs 苏格兰",
     venue: "C 组｜小组首轮｜波士顿",
-    score: "预测 0-1",
-    angle: "苏格兰胜，防平局",
+    score: "09:12 查询时比赛进行中",
+    angle: "已开球，停止新出票推荐，待赛后更新",
     left: "HAI",
     right: "SCO",
   },
@@ -160,7 +88,7 @@ const matchBanners = [
     match: "澳大利亚 vs 土耳其",
     venue: "D 组｜小组首轮｜温哥华",
     score: "预测 1-1",
-    angle: "土耳其不败，比赛波动偏大",
+    angle: "土耳其不败，平局保护优先",
     left: "AUS",
     right: "TUR",
   },
@@ -180,61 +108,45 @@ const reviewTicketIdeas = [
 
 const ticketIdeas = [
   {
-    title: "稳健主推 2 串 1",
+    title: "单场保守方向",
     type: "主推",
     recommended: true,
     picks: [
-      "海地 vs 苏格兰：苏格兰平 / 胜",
-      "卡塔尔 vs 瑞士：瑞士平 / 胜",
-    ],
-    reason: "两场都把更完整的一侧放在不败面，同时尊重首轮谨慎节奏。苏格兰有人员利好，瑞士整体结构更稳，适合作为主组合底仓。",
-    stake: "适合作为主组合，优先控制首轮平局带来的断点风险。",
-  },
-  {
-    title: "均衡对冲 2 串 1",
-    type: "均衡",
-    recommended: false,
-    picks: [
-      "巴西 vs 摩洛哥：巴西平 / 胜",
       "澳大利亚 vs 土耳其：土耳其平 / 胜",
     ],
-    reason: "两场都不追求极端方向。巴西仍有上限优势但摩洛哥难缠，土耳其技术面更优但澳大利亚身体冲击不可低估，保护平局更合理。",
-    stake: "中等仓位即可，作为主组合外的补充，不宜重压。",
+    reason: "当前未开赛公开场次只剩澳大利亚 vs 土耳其，最稳思路仍是把土耳其放在不败面，同时把首轮最常见的平局留在保护路径里。",
+    stake: "若必须参与，宜轻仓单场处理，不建议强凑串关。",
   },
   {
-    title: "进取强势 2 串 1",
+    title: "单场进取方向",
     type: "进取",
     recommended: false,
     picks: [
-      "巴西 vs 摩洛哥：巴西胜",
-      "海地 vs 苏格兰：苏格兰胜",
+      "澳大利亚 vs 土耳其：土耳其胜",
     ],
-    reason: "直接押巴西和苏格兰兑现纸面实力与阶段性准备优势，赔率更主动，但巴西场的强强对话属性和苏格兰首战心理波动都是真实风险。",
-    stake: "只适合小于主组合仓位，不作为唯一主仓。",
+    reason: "如果临场首发确认土耳其中前场主力齐整，且澳大利亚摆出更保守的后场配置，可以把不败思路上调到客胜，但容错率会明显下降。",
+    stake: "仅适合小注尝试，不替代保守主线。",
   },
   {
     title: "比分进取小注",
     type: "高赔小注",
     recommended: false,
     picks: [
-      "卡塔尔 vs 瑞士：1-1 / 1-2",
-      "巴西 vs 摩洛哥：2-1 / 1-1",
-      "海地 vs 苏格兰：0-1 / 1-1",
       "澳大利亚 vs 土耳其：1-1 / 1-2",
     ],
-    reason: "四场都优先保留首轮常见的低比分与一球差分支，避免在信息不完全的情况下追过深的大比分剧本。",
-    stake: "严格小注，只作赔率增强，不替代主组合。",
+    reason: "这场更像低比分对冲局，平局与一球差仍是更贴合公开信息的分支，不建议追过深的大比分剧本。",
+    stake: "严格小注，只作赔率增强。",
   },
   {
     title: "算法风控线",
     type: "规则",
     recommended: false,
     picks: [
-      "串关先找结构最稳的两场，不强行把 4 场全串",
-      "首轮优先防平，强强对话与陌生对位不做裸压",
+      "已开球场次不再推荐，不为凑单跨时段强行串关",
+      "只剩单场时优先轻仓或放弃，继续把平局纳入主路径",
     ],
-    reason: "继续保留硬风控：已开球不推荐、关键伤停降权、串关出现任一失手关立即整票判负；今天尤其避免把巴西场和澳大利亚场同时做成高风险主胜串。",
-    stake: "进取不等于加仓，主组合、小注补充、放弃高噪声场次仍是基本纪律。",
+    reason: "当前赛程窗口里，海地 vs 苏格兰已开球，澳大利亚 vs 土耳其是唯一仍可售的公开焦点战；这类局面最怕为了凑串而放大噪声，纪律上宁可少做也不硬做。",
+    stake: "预测只作公开信息复盘，不保证结果，更不应替代风控。",
   },
 ];
 
@@ -640,6 +552,17 @@ function oddForHit(leg, hitPick) {
   return matched ? matched.odd : null;
 }
 
+function combinations(items, size) {
+  if (size === 1) return items.map((item) => [item]);
+  const result = [];
+  items.forEach((item, index) => {
+    combinations(items.slice(index + 1), size - 1).forEach((tail) => {
+      result.push([item, ...tail]);
+    });
+  });
+  return result;
+}
+
 function evaluateLedgerTicket(ticket) {
   const legs = ticket.legs.map(parseLegLine).filter(Boolean);
   const results = ticket.results.map(parseResultLine).filter(Boolean);
@@ -665,12 +588,13 @@ function evaluateLedgerTicket(ticket) {
     } else {
       hasMiss = true;
     }
-    return { leg, actual, status: hit ? "命中" : "未中", hit };
+    return { leg, actual, status: hit ? "命中" : "未中", hit, odd };
   });
 
   const completed = legResults.length > 0 && legResults.every((item) => item.status !== "待赛果");
   const allHit = completed && legResults.every((item) => item.hit);
   let calculatedPrize = 0;
+  const mixedPass = ticket.passType === "2,3";
 
   if (completed && !needsManual && ticket.passType === "single") {
     calculatedPrize = legResults.reduce((sum, item) => {
@@ -678,6 +602,15 @@ function evaluateLedgerTicket(ticket) {
       const odd = oddForHit(item.leg, item.actual);
       return sum + (odd ? 2 * ticket.multiple * odd : 0);
     }, 0);
+  } else if (completed && !needsManual && mixedPass) {
+    const hitLegs = legResults.filter((item) => item.hit && item.odd);
+    const pairPrize = combinations(hitLegs, 2).reduce((sum, group) => {
+      return sum + 2 * ticket.multiple * group[0].odd * group[1].odd;
+    }, 0);
+    const triplePrize = combinations(hitLegs, 3).reduce((sum, group) => {
+      return sum + 2 * ticket.multiple * group.reduce((total, item) => total * item.odd, 1);
+    }, 0);
+    calculatedPrize = pairPrize + triplePrize;
   } else if (allHit && !needsManual && ticket.maxPrize && legs.every((leg) => leg.picks.length === 1)) {
     calculatedPrize = ticket.maxPrize;
   } else if (allHit && !needsManual) {
@@ -689,6 +622,15 @@ function evaluateLedgerTicket(ticket) {
     if (completed) {
       status = calculatedPrize > 0 ? "中奖" : "未中奖";
     } else if (hitCount > 0 || hasMiss) {
+      status = "进行中";
+    }
+  } else if (mixedPass) {
+    const missedCount = legResults.filter((item) => item.status === "未中").length;
+    if (completed) {
+      status = calculatedPrize > 0 ? "中奖" : "未中奖";
+    } else if (missedCount >= 2) {
+      status = "未中奖";
+    } else if (hasPending) {
       status = "进行中";
     }
   } else if (completed) {
@@ -703,6 +645,14 @@ function evaluateLedgerTicket(ticket) {
   if (ticket.passType === "single" && hasPending && (hitCount > 0 || hasMiss)) {
     const missedCount = legResults.filter((item) => item.status === "未中").length;
     summary = `单关已结算 ${hitCount + missedCount} 场：命中 ${hitCount} 场，未中 ${missedCount} 场，剩余 ${legResults.length - hitCount - missedCount} 场待赛果。`;
+  } else if (mixedPass && hasPending) {
+    const missedCount = legResults.filter((item) => item.status === "未中").length;
+    const pendingCount = legResults.filter((item) => item.status === "待赛果").length;
+    summary = `混合过关已结算 ${hitCount + missedCount} 场：命中 ${hitCount} 场，未中 ${missedCount} 场，剩余 ${pendingCount} 场待赛果。`;
+  } else if (mixedPass && completed && calculatedPrize > 0) {
+    summary = `混合过关命中有效组合，理论奖金 ${calculatedPrize.toFixed(2)} 元。`;
+  } else if (mixedPass && completed) {
+    summary = "混合过关已全部完赛，未达到中奖条件。";
   } else if (ticket.passType !== "single" && hasMiss) {
     summary = "串关已出现失手场次，整张票已可判定未中奖。";
   } else if (ticket.passType !== "single" && hitCount > 0 && hasPending) {
@@ -1156,7 +1106,7 @@ function buildEmail() {
 
 数据口径：${dataStamp}
 
-一、最近 24 小时赛果
+一、本比赛日新增赛果
 ${resultText}
 
 二、仍在等待的比赛
