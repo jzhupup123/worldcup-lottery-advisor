@@ -4,7 +4,7 @@ const briefDate = new Intl.DateTimeFormat("zh-CN", {
   weekday: "long",
 }).format(new Date());
 
-const dataStamp = "截至北京时间 2026-06-14 09:12 查询";
+const dataStamp = "截至北京时间 2026-06-14 15:00 查询";
 
 const yesterdayResults = [
   {
@@ -12,46 +12,54 @@ const yesterdayResults = [
     away: "瑞士",
     score: "1 - 1",
     stage: "B 组首轮｜北京时间 6 月 14 日 03:00",
-    note: "据 Guardian 现场页与赛后稿核对，恩博洛第 17 分钟点球破门，瑞士长时间占优却未能锁定胜局；卡塔尔补时第 95 分钟由胡希头球绝平，拿到队史首个男足世界杯积分。",
+    note: "据公开赛后报道核对，恩博洛第 17 分钟点球为瑞士先开纪录，卡塔尔第 95 分钟头球绝平；瑞士控场时间更长，但终结效率不足，最终只拿到 1 分。",
   },
   {
     home: "巴西",
     away: "摩洛哥",
     score: "1 - 1",
     stage: "C 组首轮｜北京时间 6 月 14 日 06:00",
-    note: "据 Guardian 赛后战报核对，赛巴里第 21 分钟为摩洛哥先开纪录，维尼修斯第 32 分钟扳平；下半场双方门将都有关键扑救，巴西控球更多但仍未能完成反超。",
+    note: "据公开赛后战报核对，赛巴里第 21 分钟为摩洛哥破门，维尼修斯第 32 分钟扳平；巴西控球占优但推进效率一般，摩洛哥的反击和防守韧性再次兑现。",
+  },
+  {
+    home: "海地",
+    away: "苏格兰",
+    score: "0 - 1",
+    stage: "C 组首轮｜北京时间 6 月 14 日 09:00",
+    note: "据 Guardian 现场页与赛后稿核对，麦金第 28 分钟打进全场唯一进球。苏格兰场面并不轻松，但防线顶住了海地后段持续施压，先拿到关键 3 分。",
+  },
+  {
+    home: "澳大利亚",
+    away: "土耳其",
+    score: "2 - 0",
+    stage: "D 组首轮｜北京时间 6 月 14 日 12:00",
+    note: "据 Guardian 赛后报道核对，伊兰昆达与梅特卡夫先后破门，澳大利亚在明显少控球的情况下用防守纪律和反击效率打穿土耳其，今天最大的公开冷门由此出现。",
   },
 ];
 
 const waitingMatches = [
   {
-    match: "海地 vs 苏格兰",
-    stage: "C 组首轮",
-    time: "6 月 14 日 09:00 北京时间｜09:12 查询时进行中",
-    note: "本场已于北京时间 6 月 14 日 09:00 开球，当前查询窗口内尚未完赛，公开推荐已自动停止，不再给出新出票方向，只保留赛后复盘与结果更新。",
-  },
-  {
-    match: "澳大利亚 vs 土耳其",
-    stage: "D 组首轮",
-    time: "6 月 14 日 12:00 北京时间｜未开赛",
-    note: "截至北京时间 2026 年 6 月 14 日 09:12 仍未开赛。公开信息显示澳大利亚年轻化后节奏更直接，土耳其中前场技术与创造力更强，但防线并非没有波动，仍应把平局纳入主路径。",
+    match: "今日北京时间赛程已全部完赛",
+    stage: "6 月 14 日四场小组赛",
+    time: "截至 15:00 查询｜无剩余可售公开场次",
+    note: "卡塔尔 vs 瑞士、巴西 vs 摩洛哥、海地 vs 苏格兰、澳大利亚 vs 土耳其均已结束。今日公开出票窗口关闭，页面转入赛果复盘与策略校正模式。",
   },
 ];
 
 const previews = [
   {
-    match: "澳大利亚 vs 土耳其",
-    time: "6 月 14 日 12:00 北京时间",
-    context: "当前可售公开场次只剩这一场。澳大利亚年轻化后更愿意把比赛带到纵向冲刺和身体对抗，土耳其则拥有更成熟的技术中前场与更强的阵地战创造力。",
-    form: "这类首轮对冲局通常很难早早一边倒。澳大利亚会尝试把回合数和二点球打起来，土耳其则要靠中场传控和肋部配合把优势送进禁区。",
-    squad: "重点看居莱尔、伊尔迪兹、恰尔汗奥卢一线是否能持续把土耳其的脚下优势兑现出来；澳大利亚则更依赖边路推进、定位球和高强度回抢。",
-    tactic: "更稳的做法仍是站土耳其不败并防平，不建议在首轮直接裸压大热单边。若临场首发显示澳大利亚中后场过于保守，土耳其胜可小幅上调。",
-    pick: "土耳其不败，防平局",
-    score: "1 - 1",
-    conservative: "土耳其平/胜",
-    aggressive: "土耳其胜",
-    confidence: 53,
-    factors: ["首轮试探", "土耳其技术优势", "澳洲身体冲击"],
+    match: "今日推荐窗口已关闭",
+    time: "6 月 14 日 15:00 北京时间",
+    context: "北京时间今天四场世界杯小组赛已全部完赛，当前没有仍可按公开信息做赛前单的当日窗口。",
+    form: "从复盘看，苏格兰 1 球小胜海地基本落在稳健区间，但土耳其方向被澳大利亚 2 比 0 直接打穿，说明首轮样本下不能把技术面优势当成兑现结果。",
+    squad: "下午这场最大偏差来自澳大利亚年轻线的转换速度和门将发挥，土耳其中前场纸面质量没有转化为射门质量，这类首轮波动值得在下一轮下调主观信心。",
+    tactic: "今天剩余时间不再给新出票建议，下一比赛日优先观察强队首轮是否也会出现控场不赢盘、热门不赢球的同类信号。",
+    pick: "停止新推荐，转入复盘",
+    score: "无当日赛前单",
+    conservative: "等待下一窗口",
+    aggressive: "只做赛果复盘",
+    confidence: 100,
+    factors: ["当日已完赛", "关闭新单", "修正模型偏差"],
   },
 ];
 
@@ -75,20 +83,20 @@ const matchBanners = [
     right: "MAR",
   },
   {
-    time: "6 月 14 日 09:00 北京时间｜进行中",
+    time: "6 月 14 日 09:00 北京时间｜已完赛",
     match: "海地 vs 苏格兰",
     venue: "C 组｜小组首轮｜波士顿",
-    score: "09:12 查询时比赛进行中",
-    angle: "已开球，停止新出票推荐，待赛后更新",
+    score: "终场 0-1",
+    angle: "苏格兰低消耗拿到 3 分，稳健方向偏向客队不败有效",
     left: "HAI",
     right: "SCO",
   },
   {
-    time: "6 月 14 日 12:00 北京时间",
+    time: "6 月 14 日 12:00 北京时间｜已完赛",
     match: "澳大利亚 vs 土耳其",
     venue: "D 组｜小组首轮｜温哥华",
-    score: "预测 1-1",
-    angle: "土耳其不败，平局保护优先",
+    score: "终场 2-0",
+    angle: "澳大利亚反击兑现，土耳其不败与平局保护同时失效",
     left: "AUS",
     right: "TUR",
   },
@@ -96,10 +104,10 @@ const matchBanners = [
 
 const reviewTicketIdeas = [
   {
-    title: "稳健主推 2 串 1",
+    title: "稳健双保险",
   },
   {
-    title: "进取强势 2 串 1",
+    title: "进取单边",
   },
   {
     title: "比分进取小注",
@@ -108,44 +116,45 @@ const reviewTicketIdeas = [
 
 const ticketIdeas = [
   {
-    title: "单场保守方向",
-    type: "主推",
+    title: "今日窗口收口",
+    type: "风控主线",
     recommended: true,
     picks: [
-      "澳大利亚 vs 土耳其：土耳其平 / 胜",
+      "北京时间 6 月 14 日四场已全部完赛",
+      "停止新增公开推荐，保留票据核销与赛后复盘",
     ],
-    reason: "当前未开赛公开场次只剩澳大利亚 vs 土耳其，最稳思路仍是把土耳其放在不败面，同时把首轮最常见的平局留在保护路径里。",
-    stake: "若必须参与，宜轻仓单场处理，不建议强凑串关。",
+    reason: "15:00 之后已经没有当日仍可售的公开焦点战，纪律上最优解不是换一套新预测，而是立刻停止新增风险敞口，先把当天赛果和模型偏差复盘清楚。",
+    stake: "不加新单，优先核销已录入票据。",
   },
   {
-    title: "单场进取方向",
-    type: "进取",
+    title: "复盘焦点一",
+    type: "策略纠偏",
     recommended: false,
     picks: [
-      "澳大利亚 vs 土耳其：土耳其胜",
+      "海地 vs 苏格兰：苏格兰 1 球小胜兑现，说明首轮弱势方冲击力不能忽略",
     ],
-    reason: "如果临场首发确认土耳其中前场主力齐整，且澳大利亚摆出更保守的后场配置，可以把不败思路上调到客胜，但容错率会明显下降。",
-    stake: "仅适合小注尝试，不替代保守主线。",
+    reason: "这场没有打成大开大合，说明类似海地这种冲击型球队即便纸面略弱，也足以把比赛拖进高对抗和低比分结构，后续遇到同类对阵要继续重视小比分与一球差。",
+    stake: "下轮优先保留低比分、防平与客队不败框架。",
   },
   {
-    title: "比分进取小注",
-    type: "高赔小注",
+    title: "复盘焦点二",
+    type: "冷门警报",
     recommended: false,
     picks: [
-      "澳大利亚 vs 土耳其：1-1 / 1-2",
+      "澳大利亚 vs 土耳其：澳大利亚 2-0 爆冷，土耳其方向全线落空",
     ],
-    reason: "这场更像低比分对冲局，平局与一球差仍是更贴合公开信息的分支，不建议追过深的大比分剧本。",
-    stake: "严格小注，只作赔率增强。",
+    reason: "今天最需要修正的是对纸面技术优势的信任阈值。土耳其控球和射门占优却输掉比赛，说明首轮样本下，阵地战优势如果没有转化为禁区效率，反而更容易被反击惩罚。",
+    stake: "下轮面对热门球队，先看终结效率与门将状态，再决定是否上调单边预期。",
   },
   {
     title: "算法风控线",
     type: "规则",
     recommended: false,
     picks: [
-      "已开球场次不再推荐，不为凑单跨时段强行串关",
-      "只剩单场时优先轻仓或放弃，继续把平局纳入主路径",
+      "已完赛日不再补写新单，不为追热度事后倒推推荐",
+      "保留用户票据数据，只更新赛果、复盘和下一窗口策略",
     ],
-    reason: "当前赛程窗口里，海地 vs 苏格兰已开球，澳大利亚 vs 土耳其是唯一仍可售的公开焦点战；这类局面最怕为了凑串而放大噪声，纪律上宁可少做也不硬做。",
+    reason: "自动化页面的价值是给出当下窗口内的可执行判断，而不是在赛后重写故事。当天全部完赛后，最重要的是把错误暴露出来并给下一轮保留干净的风险预算。",
     stake: "预测只作公开信息复盘，不保证结果，更不应替代风控。",
   },
 ];
@@ -285,29 +294,29 @@ function includesAny(value, candidates) {
 }
 
 function evaluateTicketIdea(idea, scores) {
-  const canadaOutcome = outcome(scores.canada);
-  const usaOutcome = outcome(scores.usa);
-  const canadaScore = exactScore(scores.canada);
-  const usaScore = exactScore(scores.usa);
+  const firstOutcome = outcome(scores.first);
+  const secondOutcome = outcome(scores.second);
+  const firstScore = exactScore(scores.first);
+  const secondScore = exactScore(scores.second);
 
-  if (!scores.canada || !scores.usa) {
+  if (!scores.first || !scores.second) {
     return { status: "待补全", hit: false };
   }
 
-  if (idea.title === "稳健主推 2 串 1") {
+  if (idea.title === "稳健双保险") {
     return {
-      status: includesAny(canadaOutcome, ["平", "胜"]) && includesAny(usaOutcome, ["平", "胜"]) ? "命中" : "未中",
-      hit: includesAny(canadaOutcome, ["平", "胜"]) && includesAny(usaOutcome, ["平", "胜"]),
+      status: firstOutcome === "负" && includesAny(secondOutcome, ["平", "负"]) ? "命中" : "未中",
+      hit: firstOutcome === "负" && includesAny(secondOutcome, ["平", "负"]),
     };
   }
 
-  if (idea.title === "进取强势 2 串 1") {
-    const hit = canadaOutcome === "胜" && usaOutcome === "胜";
+  if (idea.title === "进取单边") {
+    const hit = firstOutcome === "负" && secondOutcome === "负";
     return { status: hit ? "命中" : "未中", hit };
   }
 
   if (idea.title === "比分进取小注") {
-    const hit = includesAny(canadaScore, ["1-1", "1-0"]) && includesAny(usaScore, ["2-1", "3-1"]);
+    const hit = includesAny(firstScore, ["0-1", "1-1"]) && includesAny(secondScore, ["1-1", "1-2"]);
     return { status: hit ? "命中" : "未中", hit };
   }
 
@@ -346,7 +355,7 @@ function renderReviewStats() {
 
   history.innerHTML = reviews.slice().reverse().map((review) => `
     <article class="history-card">
-      <h4>${review.date}｜${review.scores.canadaText}，${review.scores.usaText}</h4>
+      <h4>${review.date}｜${review.scores.firstText}，${review.scores.secondText}</h4>
       ${review.results.map((result) => `<p>${result.title}：${result.status}</p>`).join("")}
       <p>${review.note || "未填写备注"}</p>
     </article>
@@ -354,14 +363,14 @@ function renderReviewStats() {
 }
 
 function saveCurrentReview() {
-  const canadaText = document.getElementById("scoreCanada").value.trim();
-  const usaText = document.getElementById("scoreUsa").value.trim();
+  const firstText = document.getElementById("scoreFirstMatch").value.trim();
+  const secondText = document.getElementById("scoreSecondMatch").value.trim();
   const scores = {
-    canada: parseScore(canadaText),
-    usa: parseScore(usaText),
+    first: parseScore(firstText),
+    second: parseScore(secondText),
   };
 
-  if (!scores.canada || !scores.usa) {
+  if (!scores.first || !scores.second) {
     const toast = document.getElementById("toast");
     toast.textContent = "请按 2-1 格式填写两场比分";
     toast.classList.add("show");
@@ -381,8 +390,8 @@ function saveCurrentReview() {
   reviews.push({
     date: new Date().toLocaleString("zh-CN"),
     scores: {
-      canadaText: `加拿大 ${canadaText} 波黑`,
-      usaText: `美国 ${usaText} 巴拉圭`,
+      firstText: `海地 ${firstText} 苏格兰`,
+      secondText: `澳大利亚 ${secondText} 土耳其`,
     },
     results,
     note: document.getElementById("reviewNote").value.trim(),
@@ -1047,20 +1056,20 @@ async function handleTicketImageUpload(event) {
 }
 
 function renderLiveEvaluation() {
-  const canadaText = document.getElementById("scoreCanada").value.trim();
-  const usaText = document.getElementById("scoreUsa").value.trim();
+  const firstText = document.getElementById("scoreFirstMatch").value.trim();
+  const secondText = document.getElementById("scoreSecondMatch").value.trim();
   const scores = {
-    canada: parseScore(canadaText),
-    usa: parseScore(usaText),
+    first: parseScore(firstText),
+    second: parseScore(secondText),
   };
   const container = document.getElementById("liveEvaluation");
 
-  if (!canadaText && !usaText) {
+  if (!firstText && !secondText) {
     container.innerHTML = "";
     return;
   }
 
-  if (!scores.canada || !scores.usa) {
+  if (!scores.first || !scores.second) {
     container.innerHTML = `<div class="eval-row"><strong>自动判断</strong><span class="manual">等待完整比分</span></div>`;
     return;
   }
@@ -1184,8 +1193,8 @@ function bindIfPresent(id, eventName, handler) {
 bindIfPresent("copyBrief", "click", copyBrief);
 bindIfPresent("copyBriefSmall", "click", copyBrief);
 bindIfPresent("saveReview", "click", saveCurrentReview);
-bindIfPresent("scoreCanada", "input", renderLiveEvaluation);
-bindIfPresent("scoreUsa", "input", renderLiveEvaluation);
+bindIfPresent("scoreFirstMatch", "input", renderLiveEvaluation);
+bindIfPresent("scoreSecondMatch", "input", renderLiveEvaluation);
 bindIfPresent("saveTicket", "click", saveCurrentTicket);
 bindIfPresent("clearTicketForm", "click", clearTicketForm);
 bindIfPresent("ticketImages", "change", handleTicketImageUpload);
